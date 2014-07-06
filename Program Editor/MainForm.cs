@@ -14,6 +14,7 @@ namespace Program_Editor
 	{
 		public string Path;
 		public Status StatusFlag;
+		public Status ErrorFlag;
 	}
 	
 	public partial class MainForm : Form
@@ -53,6 +54,7 @@ namespace Program_Editor
 				{
 					DummyValue.Path = ReadOut;
 					DummyValue.StatusFlag = Status.FILE_LOADED;
+					DummyValue.ErrorFlag = Status.NONE;
 					// add items to FileList
 					FileList.Add( DummyValue);
 
@@ -82,6 +84,32 @@ namespace Program_Editor
 #endif
 		}
 
+		private void StartButton_Click(object sender, EventArgs e)
+		{
+			// if background worker is running, then click this button cause cancelling
+			// otherwise, launch the thread
+			if( BackgroundEditor.IsBusy )
+			{
+				StartButton.Enabled = false;
+				StartButton.Text = "Stopping...";
+
+				Debug.WriteLine( "==TRYING TO STOP BG THREAD==" );
+				// notify the background worker that a cancel has been requested
+				BackgroundEditor.CancelAsync();
+			}
+			else
+			{
+				StartButton.Text = "Cancel";
+
+				// disable open menu item
+				OpenMenuItem.Enabled = false;
+
+				Debug.WriteLine( "==INITIATE BG THREAD==" );
+				// start the background worker
+				BackgroundEditor.RunWorkerAsync();
+			}
+		}
+
 		private void BackgroundEditor_DoWork(object sender, DoWorkEventArgs e)
 		{
 
@@ -102,12 +130,16 @@ namespace Program_Editor
 		{
 			throw new Exception( "The method or operation is not implemented." );
 		}
+
+		
 	}
 
 	public sealed class Status
 	{
 		private readonly string name;
 		private readonly int value;
+
+		public static readonly Status NONE = new Status( 0, "" );
 
 		public static readonly Status MARKER_MULTI = new Status( 1, "Multiple markers in file." );
 		public static readonly Status MARKER_MIS_HEAD = new Status( 2, "Missing head marker LN00." );
