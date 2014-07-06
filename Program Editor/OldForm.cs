@@ -31,6 +31,7 @@ namespace Program_Editor
 			kitchenProgressLabel.Text = "";
 		}
 
+		// extract and modified from SysExpand.Text library
 		public bool ContainMarker(string input, string pattern)
 		{
 			char wildcard = '*';
@@ -118,7 +119,6 @@ namespace Program_Editor
 			}
 			return matched;
 		}
-		// extract and modified from SysExpand.Text library
 
 		private void SearchMarkers(string path)
 		{

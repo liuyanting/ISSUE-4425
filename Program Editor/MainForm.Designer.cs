@@ -37,13 +37,14 @@ namespace Program_Editor
 			this.SelectAllMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.RemoveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.StartButton = new System.Windows.Forms.Button();
 			this.StatusStrip = new System.Windows.Forms.StatusStrip();
-			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.OverallListView = new System.Windows.Forms.ListView();
 			this.FileNameColumn = new System.Windows.Forms.ColumnHeader();
 			this.StatusColumn = new System.Windows.Forms.ColumnHeader();
-			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.BackgroundEditor = new System.ComponentModel.BackgroundWorker();
 			this.MenuStrip.SuspendLayout();
 			this.StatusStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -73,18 +74,19 @@ namespace Program_Editor
 			// OpenMenuItem
 			// 
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size( 152, 22 );
+			this.OpenMenuItem.Size = new System.Drawing.Size( 103, 22 );
 			this.OpenMenuItem.Text = "Open";
+			this.OpenMenuItem.Click += new System.EventHandler( this.OpenMenuItem_Click );
 			// 
 			// FileMenuSeperator1
 			// 
 			this.FileMenuSeperator1.Name = "FileMenuSeperator1";
-			this.FileMenuSeperator1.Size = new System.Drawing.Size( 149, 6 );
+			this.FileMenuSeperator1.Size = new System.Drawing.Size( 100, 6 );
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size( 152, 22 );
+			this.ExitMenuItem.Size = new System.Drawing.Size( 103, 22 );
 			this.ExitMenuItem.Text = "Exit";
 			// 
 			// EditMenu
@@ -100,19 +102,26 @@ namespace Program_Editor
 			// SelectAllMenuItem
 			// 
 			this.SelectAllMenuItem.Name = "SelectAllMenuItem";
-			this.SelectAllMenuItem.Size = new System.Drawing.Size( 152, 22 );
+			this.SelectAllMenuItem.Size = new System.Drawing.Size( 122, 22 );
 			this.SelectAllMenuItem.Text = "Select All";
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size( 149, 6 );
+			this.toolStripSeparator1.Size = new System.Drawing.Size( 119, 6 );
 			// 
 			// RemoveMenuItem
 			// 
 			this.RemoveMenuItem.Name = "RemoveMenuItem";
-			this.RemoveMenuItem.Size = new System.Drawing.Size( 152, 22 );
+			this.RemoveMenuItem.Size = new System.Drawing.Size( 122, 22 );
 			this.RemoveMenuItem.Text = "Remove";
+			// 
+			// AboutMenuItem
+			// 
+			this.AboutMenuItem.Enabled = false;
+			this.AboutMenuItem.Name = "AboutMenuItem";
+			this.AboutMenuItem.Size = new System.Drawing.Size( 52, 20 );
+			this.AboutMenuItem.Text = "About";
 			// 
 			// StartButton
 			// 
@@ -127,18 +136,18 @@ namespace Program_Editor
 			// StatusStrip
 			// 
 			this.StatusStrip.Items.AddRange( new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1} );
+            this.StatusLabel} );
 			this.StatusStrip.Location = new System.Drawing.Point( 0, 280 );
 			this.StatusStrip.Name = "StatusStrip";
 			this.StatusStrip.Size = new System.Drawing.Size( 284, 22 );
 			this.StatusStrip.TabIndex = 3;
 			this.StatusStrip.Text = "statusStrip1";
 			// 
-			// toolStripStatusLabel1
+			// StatusLabel
 			// 
-			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size( 113, 17 );
-			this.toolStripStatusLabel1.Text = "Processing BLAH.txt";
+			this.StatusLabel.Name = "StatusLabel";
+			this.StatusLabel.Size = new System.Drawing.Size( 113, 17 );
+			this.StatusLabel.Text = "Processing BLAH.txt";
 			// 
 			// OverallListView
 			// 
@@ -164,12 +173,13 @@ namespace Program_Editor
 			this.StatusColumn.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.StatusColumn.Width = 170;
 			// 
-			// AboutMenuItem
+			// BackgroundEditor
 			// 
-			this.AboutMenuItem.Enabled = false;
-			this.AboutMenuItem.Name = "AboutMenuItem";
-			this.AboutMenuItem.Size = new System.Drawing.Size( 52, 20 );
-			this.AboutMenuItem.Text = "About";
+			this.BackgroundEditor.WorkerReportsProgress = true;
+			this.BackgroundEditor.WorkerSupportsCancellation = true;
+			this.BackgroundEditor.DoWork += new System.ComponentModel.DoWorkEventHandler( this.BackgroundEditor_DoWork );
+			this.BackgroundEditor.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler( this.BackgroundEditor_RunWorkerCompleted );
+			this.BackgroundEditor.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler( this.BackgroundEditor_ProgressChanged );
 			// 
 			// MainForm
 			// 
@@ -206,10 +216,11 @@ namespace Program_Editor
 		private System.Windows.Forms.ToolStripMenuItem RemoveMenuItem;
 		private System.Windows.Forms.Button StartButton;
 		private System.Windows.Forms.StatusStrip StatusStrip;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+		private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
 		private System.Windows.Forms.ListView OverallListView;
 		private System.Windows.Forms.ColumnHeader FileNameColumn;
 		private System.Windows.Forms.ColumnHeader StatusColumn;
 		private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
+		private System.ComponentModel.BackgroundWorker BackgroundEditor;
 	}
 }
