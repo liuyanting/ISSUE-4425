@@ -13,6 +13,8 @@ namespace Program_Editor
 		public MainForm( )
 		{
 			InitializeComponent();
+
+			// fix form size
 		}
 	}
 }

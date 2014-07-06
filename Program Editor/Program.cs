@@ -15,7 +15,16 @@ namespace Program_Editor
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault( false );
 			// Application.Run( new ProgramEditor() );
-			Application.Run( new MainForm() );
+			// Application.Run( new MainForm() );
+
+			// initiate form
+			MainForm Form = new MainForm();
+			// lock form size
+			Form.FormBorderStyle = FormBorderStyle.FixedSingle;
+			Form.MaximizeBox = false;
+			Form.SizeGripStyle = SizeGripStyle.Hide;
+
+			Application.Run( Form );
 		}
 	}
 }
