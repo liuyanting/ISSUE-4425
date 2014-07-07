@@ -38,7 +38,7 @@ namespace Program_Editor
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.RemoveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.StartButton = new System.Windows.Forms.Button();
+			this.btnStart = new System.Windows.Forms.Button();
 			this.StatusStrip = new System.Windows.Forms.StatusStrip();
 			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.FileListView = new System.Windows.Forms.ListView();
@@ -126,16 +126,16 @@ namespace Program_Editor
 			this.AboutMenuItem.Size = new System.Drawing.Size( 52, 20 );
 			this.AboutMenuItem.Text = "About";
 			// 
-			// StartButton
+			// btnStart
 			// 
-			this.StartButton.Font = new System.Drawing.Font( "Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte)( 0 ) ) );
-			this.StartButton.Location = new System.Drawing.Point( 12, 254 );
-			this.StartButton.Name = "StartButton";
-			this.StartButton.Size = new System.Drawing.Size( 260, 23 );
-			this.StartButton.TabIndex = 2;
-			this.StartButton.Text = "Start";
-			this.StartButton.UseVisualStyleBackColor = true;
-			this.StartButton.Click += new System.EventHandler( this.StartButton_Click );
+			this.btnStart.Font = new System.Drawing.Font( "Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte)( 0 ) ) );
+			this.btnStart.Location = new System.Drawing.Point( 12, 254 );
+			this.btnStart.Name = "StartButton";
+			this.btnStart.Size = new System.Drawing.Size( 260, 23 );
+			this.btnStart.TabIndex = 2;
+			this.btnStart.Text = "Start";
+			this.btnStart.UseVisualStyleBackColor = true;
+			this.btnStart.Click += new System.EventHandler( this.StartButton_Click );
 			// 
 			// StatusStrip
 			// 
@@ -193,7 +193,7 @@ namespace Program_Editor
 			this.ClientSize = new System.Drawing.Size( 284, 302 );
 			this.Controls.Add( this.FileListView );
 			this.Controls.Add( this.StatusStrip );
-			this.Controls.Add( this.StartButton );
+			this.Controls.Add( this.btnStart );
 			this.Controls.Add( this.MenuStrip );
 			this.MainMenuStrip = this.MenuStrip;
 			this.Name = "MainForm";
@@ -219,7 +219,7 @@ namespace Program_Editor
 		private System.Windows.Forms.ToolStripMenuItem SelectAllMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem RemoveMenuItem;
-		private System.Windows.Forms.Button StartButton;
+		private System.Windows.Forms.Button btnStart;
 		private System.Windows.Forms.StatusStrip StatusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
 		private System.Windows.Forms.ListView FileListView;

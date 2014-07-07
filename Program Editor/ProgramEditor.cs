@@ -19,28 +19,28 @@ namespace Program_Editor
 
 	public partial class ProgramEditor : Form
 	{
-		private List<Record> FileList = new List<Record>();
-		private int ProcessingID;
+		private List<Record> m_FileList = new List<Record>();
+		private int m_nProcessingID;
 
-		private int Occurance = 0;		// how many occurance of the target marker L and M
-		private int HeadLine = -1;		// L position
-		private int TailLine = -1;		// M position
-		private int TotalLine = -1;		// total lines
+		private int m_nOccurance = 0;		// how many occurance of the target marker L and M
+		private int m_nHeadLine = -1;		// L position
+		private int m_nTailLine = -1;		// M position
+		private int m_nTotalLine = -1;		// total lines
 
 		public ProgramEditor( )
 		{
 			InitializeComponent();
 
 			// reset ui
-			StartButton.Text = "Start";
-			StartButton.Enabled = false;
+			btnStart.Text = "Start";
+			btnStart.Enabled = false;
 			StatusLabel.Text = Status.STATUSSTRIP_WAITOPEN.ToString();
 		}
 
 		private void OpenMenuItem_Click(object sender, EventArgs e)
 		{
 			// clear selection list
-			FileList.Clear();
+			m_FileList.Clear();
 			// clear ListView
 			FileListView.Items.Clear();
 
@@ -61,29 +61,29 @@ namespace Program_Editor
 					//DummyValue.Path = ReadOut;
 					//DummyValue.StatusFlag = Status.FILE_LOADED;
 					//DummyValue.ErrorFlag = Status.NONE;
-					// add items to FileList
-					FileList.Add( new Record( ReadOut, Status.FILE_LOADED, Status.NONE ) );
+					// add items to m_FileList
+					m_FileList.Add( new Record( ReadOut, Status.FILE_LOADED, Status.NONE ) );
 
 					// refresh ListView
 					FileListView.Items.Add( new ListViewItem( new string[]
 																{
-																	FileList[FileList.Count - 1].GetFileName(),
-																	FileList[FileList.Count - 1].GetStatusFlag().ToString()
+																	m_FileList[m_FileList.Count - 1].GetFileName(),
+																	m_FileList[m_FileList.Count - 1].GetStatusFlag().ToString()
 																} ) );
 				}
 
 				// file selected, enable start button
-				StartButton.Enabled = true;
+				btnStart.Enabled = true;
 				SelectAllMenuItem.Enabled = true;
 			}
 			else
 			{
-				StartButton.Enabled = false;
+				btnStart.Enabled = false;
 				SelectAllMenuItem.Enabled = false;
 			}
 
 			// refresh status bar label
-			StatusLabel.Text = ( StartButton.Enabled ) ? Status.STATUSSTRIP_WAITSTART.ToString() :
+			StatusLabel.Text = ( btnStart.Enabled ) ? Status.STATUSSTRIP_WAITSTART.ToString() :
 														 Status.STATUSSTRIP_WAITOPEN.ToString();
 
 #if DEBUG
@@ -102,8 +102,8 @@ namespace Program_Editor
 			// otherwise, launch the thread
 			if( BackgroundEditor.IsBusy )
 			{
-				StartButton.Enabled = false;
-				StartButton.Text = "Stopping...";
+				btnStart.Enabled = false;
+				btnStart.Text = "Stopping...";
 
 				SelectAllMenuItem.Enabled = false;
 
@@ -113,7 +113,7 @@ namespace Program_Editor
 			}
 			else
 			{
-				StartButton.Text = "Cancel";
+				btnStart.Text = "Cancel";
 
 				// disable open menu item
 				OpenMenuItem.Enabled = false;
@@ -126,11 +126,11 @@ namespace Program_Editor
 
 		private void BackgroundEditor_DoWork(object sender, DoWorkEventArgs e)
 		{
-			for( ProcessingID = 0; ProcessingID < FileList.Count; ProcessingID++ )
+			for( m_nProcessingID = 0; m_nProcessingID < m_FileList.Count; m_nProcessingID++ )
 			{
-				string Path = FileList[ ProcessingID ].GetPath();
+				string Path = m_FileList[ m_nProcessingID ].GetPath();
 
-				FileList[ ProcessingID ].SetStatusFlag( Status.FILE_PROCESSING );
+				m_FileList[ m_nProcessingID ].SetStatusFlag( Status.FILE_PROCESSING );
 				BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI );
 				// set ui status
 				BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_OPEN );
@@ -142,16 +142,16 @@ namespace Program_Editor
 				IfFormatValid();
 
 				// check if all the needed information are there
-				if( FileList[ ProcessingID ].GetErrorFlag() == Status.NONE )
+				if( m_FileList[ m_nProcessingID ].GetErrorFlag() == Status.NONE )
 				{
 					// moving segments in the file
 					MoveSegment( Path );
-					FileList[ ProcessingID ].SetStatusFlag( Status.FILE_PROCESSED );
+					m_FileList[ m_nProcessingID ].SetStatusFlag( Status.FILE_PROCESSED );
 					// BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI, Status.FILE_PROCESSED );
 				}
 				else
 				{
-					FileList[ ProcessingID ].SetStatusFlag( Status.FILE_SKIP );
+					m_FileList[ m_nProcessingID ].SetStatusFlag( Status.FILE_SKIP );
 					//BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI, Status.FILE_SKIP );
 				}
 
@@ -177,10 +177,10 @@ namespace Program_Editor
 					{
 						Debug.WriteLine( "==REFRESH_RESULT==" );
 
-						//FileListView.Items[ ProcessingID ].SubItems[ 1 ].Text = FileList[ProcessingID].GetStatusFlagString();
+						//FileListView.Items[ m_nProcessingID ].SubItems[ 1 ].Text = m_FileList[m_nProcessingID].GetStatusFlagString();
 
 						FileListView.Items.Clear();
-						foreach( Record DummyValue in FileList )
+						foreach( Record DummyValue in m_FileList )
 						{
 							FileListView.Items.Add( new ListViewItem( new string[]
 																		{
@@ -210,8 +210,8 @@ namespace Program_Editor
 			RequestLog();
 
 			// reset ui
-			StartButton.Enabled = true;
-			StartButton.Text = "Start";
+			btnStart.Enabled = true;
+			btnStart.Text = "Start";
 			OpenMenuItem.Enabled = true;
 
 			// check to see if error exists
@@ -236,13 +236,13 @@ namespace Program_Editor
 		private void SearchMarkers(string Path)
 		{
 			// reset markers
-			Occurance = 0;
-			HeadLine = -1;
-			TailLine = -1;
-			TotalLine = -1;
+			m_nOccurance = 0;
+			m_nHeadLine = -1;
+			m_nTailLine = -1;
+			m_nTotalLine = -1;
 
 			// incdicator for current position in file
-			int LineCounter = 0;
+			int nLineCounter = 0;
 			string Line;
 
 			using( StreamReader Reader = new StreamReader( Path ) )
@@ -250,7 +250,7 @@ namespace Program_Editor
 				// start finding marker until eof
 				while( ( Line = Reader.ReadLine() ) != null )
 				{
-					Debug.WriteLine( LineCounter.ToString() + " : " + Line );
+					Debug.WriteLine( nLineCounter.ToString() + " : " + Line );
 
 					BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_SEARCHHEAD );
 					// check start marker
@@ -259,9 +259,9 @@ namespace Program_Editor
 						// check if L marker is in range
 						if( IfFormatValid( Line ) )
 						{
-							Debug.WriteLine( "==FOUND START MARKER @ " + LineCounter.ToString() );
-							HeadLine = LineCounter;
-							Occurance++;
+							Debug.WriteLine( "==FOUND START MARKER @ " + nLineCounter.ToString() );
+							m_nHeadLine = nLineCounter;
+							m_nOccurance++;
 						}
 					}
 
@@ -269,18 +269,18 @@ namespace Program_Editor
 					// check end marker
 					if( ContainMarker( Line, "*M30*" ) )
 					{
-						Debug.WriteLine( "==FOUND END MARKER @ " + LineCounter.ToString() );
-						TailLine = LineCounter;
-						Occurance++;
+						Debug.WriteLine( "==FOUND END MARKER @ " + nLineCounter.ToString() );
+						m_nTailLine = nLineCounter;
+						m_nOccurance++;
 					}
 
 					// move indicator to next line
-					LineCounter++;
+					nLineCounter++;
 				}
 			}
 
 			// store the total line count
-			TotalLine = LineCounter;
+			m_nTotalLine = nLineCounter;
 		}
 
 		// extract and modified from SysExpand.Text library
@@ -289,61 +289,61 @@ namespace Program_Editor
 			char wildcard = '*';
 
 			// stack containing input positions that should be tested for further matching
-			int[] inputPosStack = new int[ ( input.Length + 1 ) * ( pattern.Length + 1 ) ];
+			int[] nInputPosStack = new int[ ( input.Length + 1 ) * ( pattern.Length + 1 ) ];
 			// stack containing pattern positions that should be tested for further matching
-			int[] patternPosStack = new int[ inputPosStack.Length ];
+			int[] nPatternPosStack = new int[ nInputPosStack.Length ];
 
 			// points to last occupied entry in stack
-			int stackPos = -1;
+			int nStackPos = -1;
 
 			// indicates that input position vs. pattern position has been tested                             
-			bool[ , ] pointTested = new bool[ input.Length + 1, pattern.Length + 1 ];
+			bool[ , ] bPointTested = new bool[ input.Length + 1, pattern.Length + 1 ];
 
-			// position in input matched up to the first multiple wildcard in pattern
-			int inputPos = 0;
-			// position in pattern matched up to the first multiple wildcard in pattern
-			int patternPos = 0;
+			// position in input bMatched up to the first multiple wildcard in pattern
+			int nInputPos = 0;
+			// position in pattern bMatched up to the first multiple wildcard in pattern
+			int nPatternPos = 0;
 
 			// match beginning of the string until first multiple wildcard in pattern
-			while( inputPos < input.Length && patternPos < pattern.Length &&
-				   pattern[ patternPos ] != wildcard &&
-				   ( input[ inputPos ] == pattern[ patternPos ] || pattern[ patternPos ] == wildcard ) )
+			while( nInputPos < input.Length && nPatternPos < pattern.Length &&
+				   pattern[ nPatternPos ] != wildcard &&
+				   ( input[ nInputPos ] == pattern[ nPatternPos ] || pattern[ nPatternPos ] == wildcard ) )
 			{
-				inputPos++;
-				patternPos++;
+				nInputPos++;
+				nPatternPos++;
 			}
 
 			// push this position to stack if it points to end of pattern or to a general wildcard character
-			if( patternPos == pattern.Length || pattern[ patternPos ] == wildcard )
+			if( nPatternPos == pattern.Length || pattern[ nPatternPos ] == wildcard )
 			{
-				pointTested[ inputPos, patternPos ] = true;
-				inputPosStack[ ++stackPos ] = inputPos;
-				patternPosStack[ stackPos ] = patternPos;
+				bPointTested[ nInputPos, nPatternPos ] = true;
+				nInputPosStack[ ++nStackPos ] = nInputPos;
+				nPatternPosStack[ nStackPos ] = nPatternPos;
 			}
 
-			bool matched = false;
+			bool bMatched = false;
 
-			// repeat matching until either string is matched against the pattern or no more parts remain on stack to test
-			while( stackPos >= 0 && !matched )
+			// repeat matching until either string is bMatched against the pattern or no more parts remain on stack to test
+			while( nStackPos >= 0 && !bMatched )
 			{
 
-				inputPos = inputPosStack[ stackPos ];         // Pop input and pattern positions from stack
-				patternPos = patternPosStack[ stackPos-- ];   // Matching will succeed if rest of the input string matches rest of the pattern
+				nInputPos = nInputPosStack[ nStackPos ];         // Pop input and pattern positions from stack
+				nPatternPos = nPatternPosStack[ nStackPos-- ];   // Matching will succeed if rest of the input string matches rest of the pattern
 
-				if( inputPos == input.Length && patternPos == pattern.Length )
-					matched = true;     // Reached end of both pattern and input string, hence matching is successful
-				else if( patternPos == pattern.Length - 1 )
-					matched = true;     // Current pattern character is multiple wildcard and it will match all the remaining characters in the input string
+				if( nInputPos == input.Length && nPatternPos == pattern.Length )
+					bMatched = true;     // Reached end of both pattern and input string, hence matching is successful
+				else if( nPatternPos == pattern.Length - 1 )
+					bMatched = true;     // Current pattern character is multiple wildcard and it will match all the remaining characters in the input string
 				else
 				{
 					// First character in next pattern block is guaranteed to be multiple wildcard
 					// So skip it and search for all matches in input string until next multiple wildcard character is reached in pattern
 
-					for( int curInputStart = inputPos; curInputStart < input.Length; curInputStart++ )
+					for( int curInputStart = nInputPos; curInputStart < input.Length; curInputStart++ )
 					{
 
 						int curInputPos = curInputStart;
-						int curPatternPos = patternPos + 1;
+						int curPatternPos = nPatternPos + 1;
 
 						while( curInputPos < input.Length && curPatternPos < pattern.Length &&
 							   pattern[ curPatternPos ] != wildcard &&
@@ -360,51 +360,51 @@ namespace Program_Editor
 						// so that it will not be pushed to stack later again.
 						if( ( ( curPatternPos == pattern.Length && curInputPos == input.Length ) ||
 							 ( curPatternPos < pattern.Length && pattern[ curPatternPos ] == wildcard ) ) &&
-							!pointTested[ curInputPos, curPatternPos ] )
+							!bPointTested[ curInputPos, curPatternPos ] )
 						{
-							pointTested[ curInputPos, curPatternPos ] = true;
-							inputPosStack[ ++stackPos ] = curInputPos;
-							patternPosStack[ stackPos ] = curPatternPos;
+							bPointTested[ curInputPos, curPatternPos ] = true;
+							nInputPosStack[ ++nStackPos ] = curInputPos;
+							nPatternPosStack[ nStackPos ] = curPatternPos;
 						}
 					}
 				}
 			}
-			return matched;
+			return bMatched;
 		}
 
 		private void IfFormatValid( )
 		{
-			if( Occurance > 2 )
+			if( m_nOccurance > 2 )
 			{
 #if DEBUG
 				MessageBox.Show( "Multiple markers in file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-				FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_MULTI );
+				m_FileList[ m_nProcessingID ].SetErrorFlag( Status.MARKER_MULTI );
 			}
 			else
 			{
-				if( Occurance < 2 )
+				if( m_nOccurance < 2 )
 				{
-					if( HeadLine == -1 )
+					if( m_nHeadLine == -1 )
 					{
 #if DEBUG
 						MessageBox.Show( "Missing head marker: LN00", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_MIS_HEAD );
+						m_FileList[ m_nProcessingID ].SetErrorFlag( Status.MARKER_MIS_HEAD );
 					}
-					if( TailLine == -1 )
+					if( m_nTailLine == -1 )
 					{
 #if DEBUG
 						MessageBox.Show( "Missing end marker: M30", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_MIS_TAIL );
+						m_FileList[ m_nProcessingID ].SetErrorFlag( Status.MARKER_MIS_TAIL );
 					}
-					if( HeadLine > TailLine )
+					if( m_nHeadLine > m_nTailLine )
 					{
 #if DEBUG
 						MessageBox.Show( "Marker in reverse order.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_REVERSE );
+						m_FileList[ m_nProcessingID ].SetErrorFlag( Status.MARKER_REVERSE );
 					}
 				}
 			}
@@ -427,20 +427,20 @@ namespace Program_Editor
 			}
 
 			// write error flag
-			FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_OB );
+			m_FileList[ m_nProcessingID ].SetErrorFlag( Status.MARKER_OB );
 
 			return false;
 		}
 
 		private void MoveSegment(string Path)
 		{
-			Debug.WriteLine( "==PRINT SELECTED LINES : " + HeadLine.ToString() + " : " + TailLine.ToString() );
+			Debug.WriteLine( "==PRINT SELECTED LINES : " + m_nHeadLine.ToString() + " : " + m_nTailLine.ToString() );
 
 			// report current progress
 			BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_MOVING );
 
 			// position to pickup after the moving
-			int LineCounter = 0;
+			int nLineCounter = 0;
 			string Line;
 
 			// creating tmp file
@@ -453,32 +453,32 @@ namespace Program_Editor
 					// wrtie none moving region
 					while( ( Line = Reader.ReadLine() ) != null )
 					{
-						if( ( LineCounter < HeadLine ) || ( LineCounter > TailLine ) )
+						if( ( nLineCounter < m_nHeadLine ) || ( nLineCounter > m_nTailLine ) )
 						{
 							// write content to file
 							Writer.WriteLine( Line );
 							Writer.Flush();
 						}
 
-						LineCounter++;
+						nLineCounter++;
 					}
 
 					// reset reader and counter
-					LineCounter = 0;
+					nLineCounter = 0;
 					Reader.DiscardBufferedData();
 					Reader.BaseStream.Seek( 0, SeekOrigin.Begin );
 
 					Debug.WriteLine( "==WRITING QUOTED REGION==" );
 					while( ( Line = Reader.ReadLine() ) != null )
 					{
-						if( ( LineCounter >= HeadLine ) && ( LineCounter <= TailLine ) )
+						if( ( nLineCounter >= m_nHeadLine ) && ( nLineCounter <= m_nTailLine ) )
 						{
 							// write content to file
 							Writer.WriteLine( Line );
 							Writer.Flush();
 						}
 
-						LineCounter++;
+						nLineCounter++;
 					}
 				}
 			}
@@ -496,7 +496,7 @@ namespace Program_Editor
 
 			List<Record> ErrorPreview = new List<Record>();
 
-			foreach( Record DummyValue in FileList )
+			foreach( Record DummyValue in m_FileList )
 			{
 				if( DummyValue.GetErrorFlag() != Status.NONE )
 				{
@@ -512,7 +512,7 @@ namespace Program_Editor
 					string LogPath = "C:\\log-" +
 								  DateTime.Now.ToString( "yyyy-MM-dd-HH-mm-ss" ) +
 								  ".txt";
-
+				
 					using( StreamWriter Writer = new StreamWriter( LogPath ) )
 					{
 						foreach( Record DummyValue in ErrorPreview )
@@ -553,7 +553,7 @@ namespace Program_Editor
 					for( int i = FileListView.SelectedItems.Count - 1; i >= 0; i-- )
 					{
 						ListViewItem DummyValue = FileListView.SelectedItems[ i ];
-						FileList.RemoveAt( DummyValue.Index );
+						m_FileList.RemoveAt( DummyValue.Index );
 						FileListView.Items[ DummyValue.Index ].Remove();
 					}
 				}
@@ -620,7 +620,7 @@ namespace Program_Editor
 	public sealed class Status
 	{
 		private readonly string name;
-		private readonly int value;
+		private readonly int nValue;
 
 		public static readonly Status NONE = new Status( 0, "" );
 
@@ -649,7 +649,7 @@ namespace Program_Editor
 		private Status(int value, String name)
 		{
 			this.name = name;
-			this.value = value;
+			this.nValue = value;
 		}
 
 		public override string ToString( )
