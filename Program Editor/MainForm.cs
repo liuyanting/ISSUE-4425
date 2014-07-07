@@ -525,18 +525,12 @@ namespace Program_Editor
 				MessageBox.Show( "Process complete!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information );
 			}
 		}
-	}
 
-	/*
-	 * 
-	 * public struct Record
+		private void SelectAllMenuItem_Click(object sender, EventArgs e)
 		{
-			public string Path;
-			public Status StatusFlag;
-			public Status ErrorFlag;
+
 		}
-	 * 
-	*/
+	}
 
 	public sealed class Record
 	{
