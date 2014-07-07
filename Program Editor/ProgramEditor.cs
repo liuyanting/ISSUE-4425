@@ -16,8 +16,8 @@ namespace Program_Editor
 		PROCESS = 1,
 		UPDATEUI = 2,
 	}
-	
-	public partial class MainForm : Form
+
+	public partial class ProgramEditor : Form
 	{
 		private List<Record> FileList = new List<Record>();
 		private int ProcessingID;
@@ -26,18 +26,15 @@ namespace Program_Editor
 		private int HeadLine = -1;		// L position
 		private int TailLine = -1;		// M position
 		private int TotalLine = -1;		// total lines
-		
-		public MainForm( )
+
+		public ProgramEditor( )
 		{
 			InitializeComponent();
-			
+
 			// reset ui
 			StartButton.Text = "Start";
 			StartButton.Enabled = false;
 			StatusLabel.Text = Status.STATUSSTRIP_WAITOPEN.ToString();
-
-			SelectAllMenuItem.Enabled = false;
-			RemoveMenuItem.Enabled = false;
 		}
 
 		private void OpenMenuItem_Click(object sender, EventArgs e)
@@ -57,7 +54,7 @@ namespace Program_Editor
 			if( openFileDialog.ShowDialog() == DialogResult.OK )
 			{
 				//Record DummyValue;
-				
+
 				// save file list to m_fileList
 				foreach( string ReadOut in openFileDialog.FileNames )
 				{
@@ -65,14 +62,14 @@ namespace Program_Editor
 					//DummyValue.StatusFlag = Status.FILE_LOADED;
 					//DummyValue.ErrorFlag = Status.NONE;
 					// add items to FileList
-					FileList.Add( new Record(ReadOut, Status.FILE_LOADED, Status.NONE ));
+					FileList.Add( new Record( ReadOut, Status.FILE_LOADED, Status.NONE ) );
 
 					// refresh ListView
 					FileListView.Items.Add( new ListViewItem( new string[]
 																{
 																	FileList[FileList.Count - 1].GetFileName(),
 																	FileList[FileList.Count - 1].GetStatusFlag().ToString()
-																} ));
+																} ) );
 				}
 
 				// file selected, enable start button
@@ -86,7 +83,7 @@ namespace Program_Editor
 			}
 
 			// refresh status bar label
-			StatusLabel.Text = ( StartButton.Enabled ) ? Status.STATUSSTRIP_WAITSTART.ToString() : 
+			StatusLabel.Text = ( StartButton.Enabled ) ? Status.STATUSSTRIP_WAITSTART.ToString() :
 														 Status.STATUSSTRIP_WAITOPEN.ToString();
 
 #if DEBUG
@@ -190,7 +187,7 @@ namespace Program_Editor
 																			DummyValue.GetFileName(),
 																			DummyValue.GetStatusFlag().ToString()
 																		} ) );
-							
+
 							// change colour if error occurred
 							if( DummyValue.GetErrorFlag() != Status.NONE )
 							{
@@ -382,7 +379,7 @@ namespace Program_Editor
 #if DEBUG
 				MessageBox.Show( "Multiple markers in file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-				FileList[ProcessingID].SetErrorFlag(Status.MARKER_MULTI);
+				FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_MULTI );
 			}
 			else
 			{
@@ -393,21 +390,21 @@ namespace Program_Editor
 #if DEBUG
 						MessageBox.Show( "Missing head marker: LN00", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						FileList[ProcessingID].SetErrorFlag(Status.MARKER_MIS_HEAD);
+						FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_MIS_HEAD );
 					}
 					if( TailLine == -1 )
 					{
 #if DEBUG
 						MessageBox.Show( "Missing end marker: M30", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						FileList[ProcessingID].SetErrorFlag(Status.MARKER_MIS_TAIL);
+						FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_MIS_TAIL );
 					}
 					if( HeadLine > TailLine )
 					{
 #if DEBUG
-						MessageBox.Show("Marker in reverse order.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+						MessageBox.Show( "Marker in reverse order.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						FileList[ProcessingID].SetErrorFlag(Status.MARKER_REVERSE);
+						FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_REVERSE );
 					}
 				}
 			}
@@ -430,7 +427,7 @@ namespace Program_Editor
 			}
 
 			// write error flag
-			FileList[ProcessingID].SetErrorFlag(Status.MARKER_OB);
+			FileList[ ProcessingID ].SetErrorFlag( Status.MARKER_OB );
 
 			return false;
 		}
@@ -492,22 +489,22 @@ namespace Program_Editor
 			File.Move( TempFile, Path );
 		}
 
-		private void RequestLog()
+		private void RequestLog( )
 		{
 			// throw new Exception( "The method or operation is not implemented." );
 			Debug.WriteLine( "==INSIDE REQUEST LOG FUNCTION==" );
 
 			List<Record> ErrorPreview = new List<Record>();
 
-			foreach(Record DummyValue in FileList )
+			foreach( Record DummyValue in FileList )
 			{
-				if(DummyValue.GetErrorFlag() != Status.NONE )
+				if( DummyValue.GetErrorFlag() != Status.NONE )
 				{
 					ErrorPreview.Add( DummyValue );
 				}
 			}
 
-			if(ErrorPreview.Count > 0 )
+			if( ErrorPreview.Count > 0 )
 			{
 				if( MessageBox.Show( "Some file isn't processed, would you like to know them?",
 									 "Log Output", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes )
@@ -535,11 +532,43 @@ namespace Program_Editor
 
 		private void SelectAllMenuItem_Click(object sender, EventArgs e)
 		{
-			RemoveMenuItem.Enabled = true;
+			if( FileListView.Items.Count == 0 )
+			{
+				MessageBox.Show( "Please open some files first!", "No Files", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+				return;
+			}
 
 			foreach( ListViewItem DummyValue in FileListView.Items )
 			{
 				DummyValue.Selected = true;
+			}
+		}
+
+		private void RemoveMenuItem_Click(object sender, EventArgs e)
+		{
+			if( FileListView.SelectedItems.Count > 0 )
+			{
+				if( MessageBox.Show( "Would you like to delete selected items?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes )
+				{
+					for( int i = FileListView.SelectedItems.Count - 1; i >= 0; i-- )
+					{
+						ListViewItem DummyValue = FileListView.SelectedItems[ i ];
+						FileList.RemoveAt( DummyValue.Index );
+						FileListView.Items[ DummyValue.Index ].Remove();
+					}
+				}
+			}
+			else
+			{
+				MessageBox.Show( "Please select at least on items.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
+			}
+		}
+
+		private void ExitMenuItem_Click(object sender, EventArgs e)
+		{
+			if( MessageBox.Show( "Are you sure?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes )
+			{
+				this.Close();
 			}
 		}
 	}

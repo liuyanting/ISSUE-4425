@@ -15,16 +15,15 @@ namespace Program_Editor
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault( false );
 			// Application.Run( new ProgramEditor() );
-			Application.Run( new MainForm() );
 
-			//// initiate form
-			//MainForm MyForm = new MainForm();
-			//// lock form size
-			//MyForm.FormBorderStyle = FormBorderStyle.FixedSingle;
-			//MyForm.MaximizeBox = false;
-			//MyForm.SizeGripStyle = SizeGripStyle.Hide;
+			// initiate form
+			ProgramEditor MyForm = new ProgramEditor();
+			// lock form size
+			MyForm.FormBorderStyle = FormBorderStyle.FixedSingle;
+			MyForm.MaximizeBox = false;
+			MyForm.SizeGripStyle = SizeGripStyle.Hide;
 
-			//Application.Run( MyForm );
+			Application.Run( MyForm );
 		}
 	}
 }

@@ -17,7 +17,6 @@ C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Debug\Program Edito
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Debug\Program Editor.exe
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Debug\Program Editor.pdb
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program_Editor.MainForm.resources
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program_Editor.Properties.Resources.resources
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.csproj.GenerateResource.Cache
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.TrustInfo.xml
@@ -30,7 +29,6 @@ C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Release\Program Edi
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Release\Program Editor.exe
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Release\Program Editor.pdb
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\ResolveAssemblyReference.cache
-C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program_Editor.MainForm.resources
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program_Editor.Properties.Resources.resources
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Editor.csproj.GenerateResource.Cache
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Editor.TrustInfo.xml
@@ -38,3 +36,5 @@ C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Edi
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Editor.application
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Editor.exe
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Editor.pdb
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program_Editor.ProgramEditor.resources
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program_Editor.ProgramEditor.resources
