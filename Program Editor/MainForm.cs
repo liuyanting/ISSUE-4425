@@ -207,6 +207,7 @@ namespace Program_Editor
 					// check start marker
 					if( ContainMarker( Line, "*L*00*" ) )
 					{
+						// check if L marker is in range
 						if( IfFormatValid( Line ) )
 						{
 							Debug.WriteLine( "==FOUND START MARKER @ " + LineCounter.ToString() );
@@ -371,15 +372,23 @@ namespace Program_Editor
 		private bool IfFormatValid(string rawString)
 		{
 			int nN;
+			// parsing number from LN00 marker
 			Regex numberParser = new Regex( @"L\S+\d{2}?", RegexOptions.Compiled );
 			foreach( Match match in numberParser.Matches( rawString ) )
 			{
 				if( int.TryParse( match.Value.Remove( 0, 1 ).Replace( "00", string.Empty ), out nN ) )
 				{
+					// check if N is in range
 					if( nN >= 1 && nN <= 89 )
 						return true;
 				}
 			}
+
+			// write error flag
+			Record DummyValue = FileList[ ProcessingID ];
+			DummyValue.ErrorFlag = Status.MARKER_OB;
+			FileList[ ProcessingID ] = DummyValue;
+
 			return false;
 		}
 
