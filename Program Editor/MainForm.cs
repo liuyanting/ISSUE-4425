@@ -35,6 +35,9 @@ namespace Program_Editor
 			StartButton.Text = "Start";
 			StartButton.Enabled = false;
 			StatusLabel.Text = Status.STATUSSTRIP_WAITOPEN.ToString();
+
+			SelectAllMenuItem.Enabled = false;
+			RemoveMenuItem.Enabled = false;
 		}
 
 		private void OpenMenuItem_Click(object sender, EventArgs e)
@@ -74,10 +77,12 @@ namespace Program_Editor
 
 				// file selected, enable start button
 				StartButton.Enabled = true;
+				SelectAllMenuItem.Enabled = true;
 			}
 			else
 			{
 				StartButton.Enabled = false;
+				SelectAllMenuItem.Enabled = false;
 			}
 
 			// refresh status bar label
@@ -102,6 +107,8 @@ namespace Program_Editor
 			{
 				StartButton.Enabled = false;
 				StartButton.Text = "Stopping...";
+
+				SelectAllMenuItem.Enabled = false;
 
 				Debug.WriteLine( "==TRYING TO STOP BG THREAD==" );
 				// notify the background worker that a cancel has been requested
@@ -528,7 +535,12 @@ namespace Program_Editor
 
 		private void SelectAllMenuItem_Click(object sender, EventArgs e)
 		{
+			RemoveMenuItem.Enabled = true;
 
+			foreach( ListViewItem DummyValue in FileListView.Items )
+			{
+				DummyValue.Selected = true;
+			}
 		}
 	}
 

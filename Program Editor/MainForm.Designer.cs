@@ -74,19 +74,19 @@ namespace Program_Editor
 			// OpenMenuItem
 			// 
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size( 152, 22 );
+			this.OpenMenuItem.Size = new System.Drawing.Size( 103, 22 );
 			this.OpenMenuItem.Text = "Open";
 			this.OpenMenuItem.Click += new System.EventHandler( this.OpenMenuItem_Click );
 			// 
 			// FileMenuSeperator1
 			// 
 			this.FileMenuSeperator1.Name = "FileMenuSeperator1";
-			this.FileMenuSeperator1.Size = new System.Drawing.Size( 149, 6 );
+			this.FileMenuSeperator1.Size = new System.Drawing.Size( 100, 6 );
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size( 152, 22 );
+			this.ExitMenuItem.Size = new System.Drawing.Size( 103, 22 );
 			this.ExitMenuItem.Text = "Exit";
 			// 
 			// EditMenu
@@ -156,6 +156,7 @@ namespace Program_Editor
 			this.FileListView.Columns.AddRange( new System.Windows.Forms.ColumnHeader[] {
             this.FileNameColumn,
             this.StatusColumn} );
+			this.FileListView.FullRowSelect = true;
 			this.FileListView.GridLines = true;
 			this.FileListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.FileListView.Location = new System.Drawing.Point( 0, 27 );
