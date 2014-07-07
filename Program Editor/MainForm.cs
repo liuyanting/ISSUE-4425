@@ -177,7 +177,12 @@ namespace Program_Editor
 					{
 						Debug.WriteLine( "==REFRESH_RESULT==" );
 
-						//FileListView.Items[ ProcessingID ].SubItems[ 0 ].Text = e.UserState.ToString();
+						ListViewItem DummyLVT = new ListViewItem( Path.GetFileName( FileList[ ProcessingID ].Path ) );
+						DummyLVT.SubItems.Add( "WRITED" );
+						FileListView.Items[ ProcessingID ] = DummyLVT;
+
+						// the minus 1 is cause by the end of array
+						//FileListView.Items[ ProcessingID - 1 ].SubItems[ 0 ].Text = "WRITED";
 
 						//// change colour if error occurred
 						//if( FileList[ ProcessingID ].ErrorFlag != Status.NONE )
