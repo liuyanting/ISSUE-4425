@@ -41,7 +41,7 @@ namespace Program_Editor
 			this.StartButton = new System.Windows.Forms.Button();
 			this.StatusStrip = new System.Windows.Forms.StatusStrip();
 			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.OverallListView = new System.Windows.Forms.ListView();
+			this.FileListView = new System.Windows.Forms.ListView();
 			this.FileNameColumn = new System.Windows.Forms.ColumnHeader();
 			this.StatusColumn = new System.Windows.Forms.ColumnHeader();
 			this.BackgroundEditor = new System.ComponentModel.BackgroundWorker();
@@ -74,19 +74,19 @@ namespace Program_Editor
 			// OpenMenuItem
 			// 
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size( 103, 22 );
+			this.OpenMenuItem.Size = new System.Drawing.Size( 152, 22 );
 			this.OpenMenuItem.Text = "Open";
 			this.OpenMenuItem.Click += new System.EventHandler( this.OpenMenuItem_Click );
 			// 
 			// FileMenuSeperator1
 			// 
 			this.FileMenuSeperator1.Name = "FileMenuSeperator1";
-			this.FileMenuSeperator1.Size = new System.Drawing.Size( 100, 6 );
+			this.FileMenuSeperator1.Size = new System.Drawing.Size( 149, 6 );
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size( 103, 22 );
+			this.ExitMenuItem.Size = new System.Drawing.Size( 152, 22 );
 			this.ExitMenuItem.Text = "Exit";
 			// 
 			// EditMenu
@@ -102,18 +102,18 @@ namespace Program_Editor
 			// SelectAllMenuItem
 			// 
 			this.SelectAllMenuItem.Name = "SelectAllMenuItem";
-			this.SelectAllMenuItem.Size = new System.Drawing.Size( 122, 22 );
+			this.SelectAllMenuItem.Size = new System.Drawing.Size( 152, 22 );
 			this.SelectAllMenuItem.Text = "Select All";
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size( 119, 6 );
+			this.toolStripSeparator1.Size = new System.Drawing.Size( 149, 6 );
 			// 
 			// RemoveMenuItem
 			// 
 			this.RemoveMenuItem.Name = "RemoveMenuItem";
-			this.RemoveMenuItem.Size = new System.Drawing.Size( 122, 22 );
+			this.RemoveMenuItem.Size = new System.Drawing.Size( 152, 22 );
 			this.RemoveMenuItem.Text = "Remove";
 			// 
 			// AboutMenuItem
@@ -150,18 +150,18 @@ namespace Program_Editor
 			this.StatusLabel.Size = new System.Drawing.Size( 113, 17 );
 			this.StatusLabel.Text = "Processing BLAH.txt";
 			// 
-			// OverallListView
+			// FileListView
 			// 
-			this.OverallListView.Columns.AddRange( new System.Windows.Forms.ColumnHeader[] {
+			this.FileListView.Columns.AddRange( new System.Windows.Forms.ColumnHeader[] {
             this.FileNameColumn,
             this.StatusColumn} );
-			this.OverallListView.GridLines = true;
-			this.OverallListView.Location = new System.Drawing.Point( 0, 27 );
-			this.OverallListView.Name = "OverallListView";
-			this.OverallListView.Size = new System.Drawing.Size( 284, 221 );
-			this.OverallListView.TabIndex = 4;
-			this.OverallListView.UseCompatibleStateImageBehavior = false;
-			this.OverallListView.View = System.Windows.Forms.View.Details;
+			this.FileListView.GridLines = true;
+			this.FileListView.Location = new System.Drawing.Point( 0, 27 );
+			this.FileListView.Name = "FileListView";
+			this.FileListView.Size = new System.Drawing.Size( 284, 221 );
+			this.FileListView.TabIndex = 4;
+			this.FileListView.UseCompatibleStateImageBehavior = false;
+			this.FileListView.View = System.Windows.Forms.View.Details;
 			// 
 			// FileNameColumn
 			// 
@@ -187,7 +187,7 @@ namespace Program_Editor
 			this.AutoScaleDimensions = new System.Drawing.SizeF( 6F, 13F );
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size( 284, 302 );
-			this.Controls.Add( this.OverallListView );
+			this.Controls.Add( this.FileListView );
 			this.Controls.Add( this.StatusStrip );
 			this.Controls.Add( this.StartButton );
 			this.Controls.Add( this.MenuStrip );
@@ -218,7 +218,7 @@ namespace Program_Editor
 		private System.Windows.Forms.Button StartButton;
 		private System.Windows.Forms.StatusStrip StatusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
-		private System.Windows.Forms.ListView OverallListView;
+		private System.Windows.Forms.ListView FileListView;
 		private System.Windows.Forms.ColumnHeader FileNameColumn;
 		private System.Windows.Forms.ColumnHeader StatusColumn;
 		private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;

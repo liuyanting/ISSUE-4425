@@ -20,6 +20,7 @@ namespace Program_Editor
 	public partial class MainForm : Form
 	{
 		private List<Record> FileList = new List<Record>();
+		private int ProcessingID;
 		
 		public MainForm( )
 		{
@@ -36,7 +37,7 @@ namespace Program_Editor
 			// clear selection list
 			FileList.Clear();
 			// clear ListView
-			OverallListView.Items.Clear();
+			FileListView.Items.Clear();
 
 			// displays an OpenFileDialog for user to select files
 			OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -56,10 +57,10 @@ namespace Program_Editor
 					DummyValue.StatusFlag = Status.FILE_LOADED;
 					DummyValue.ErrorFlag = Status.NONE;
 					// add items to FileList
-					FileList.Add( DummyValue);
+					FileList.Add( DummyValue );
 
 					// refresh ListView
-					OverallListView.Items.Add( Path.GetFileName( ReadOut ) );
+					FileListView.Items.Add( Path.GetFileName( ReadOut ) );
 				}
 
 				// file selected, enable start button
@@ -117,7 +118,31 @@ namespace Program_Editor
 
 		private void BackgroundEditor_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			
+			// identifying which status to update
+			//switch( e.UserState.GetType().ToString() as string )
+			switch( e.ProgressPercentage )
+			{
+				case 1: // updating process
+					{
+						StatusLabel.Text = ( (Status)( e.UserState ) ).ToString();
+						break;
+					}
+				case 2: // updating result, from status flag
+					{
+						FileListView.Items[ ProcessingID ].SubItems[ 1 ].Text = ( (Status)( e.UserState ) ).ToString();
+						break;
+					}
+			}
+
+			// change colour if error occurred
+			if( FileList[ ProcessingID ].ErrorFlag != Status.NONE )
+			{
+				FileListView.Items[ ProcessingID ].BackColor = Color.Red;
+			}
+			else
+			{
+				FileListView.Items[ ProcessingID ].BackColor = Color.White;
+			}
 		}
 
 		private void BackgroundEditor_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
