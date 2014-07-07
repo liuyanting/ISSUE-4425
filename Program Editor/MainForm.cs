@@ -11,17 +11,18 @@ using System.Text.RegularExpressions;
 
 namespace Program_Editor
 {
-	public struct Record
-	{
-		public string Path;
-		public Status StatusFlag;
-		public Status ErrorFlag;
-	}
+	//public struct Record
+	//{
+	//    public string Path;
+	//    public Status StatusFlag;
+	//    public Status ErrorFlag;
+	//}
 
 	public enum RefreshStatus
 	{
 		PROCESS = 1,
-		RESULT = 2
+		RESULT = 2,
+		UPDATEUI = 3
 	}
 	
 	public partial class MainForm : Form
@@ -60,22 +61,22 @@ namespace Program_Editor
 			// show the dialog
 			if( openFileDialog.ShowDialog() == DialogResult.OK )
 			{
-				Record DummyValue;
+				//Record DummyValue;
 				
 				// save file list to m_fileList
 				foreach( string ReadOut in openFileDialog.FileNames )
 				{
-					DummyValue.Path = ReadOut;
-					DummyValue.StatusFlag = Status.FILE_LOADED;
-					DummyValue.ErrorFlag = Status.NONE;
+					//DummyValue.Path = ReadOut;
+					//DummyValue.StatusFlag = Status.FILE_LOADED;
+					//DummyValue.ErrorFlag = Status.NONE;
 					// add items to FileList
-					FileList.Add( DummyValue );
+					FileList.Add( new Record(ReadOut, Status.FILE_LOADED, Status.NONE ));
 
 					// refresh ListView
 					FileListView.Items.Add( new ListViewItem( new string[]
 																{
-																	Path.GetFileName( DummyValue.Path ),
-																	DummyValue.StatusFlag.ToString()
+																	FileList[FileList.Count - 1].GetFileName(),
+																	FileList[FileList.Count - 1].GetStatusFlagString()
 																} ));
 				}
 
@@ -95,7 +96,7 @@ namespace Program_Editor
 			Debug.WriteLine( "\n==FILE INPUT==" );
 			foreach( Record ReadOut in FileList )
 			{
-				Debug.WriteLine( ReadOut.Path );
+				Debug.WriteLine( ReadOut.GetPath() );
 			}
 			Debug.WriteLine( "==============\n" );
 #endif
@@ -131,10 +132,11 @@ namespace Program_Editor
 		{
 			for( ProcessingID = 0; ProcessingID < FileList.Count; ProcessingID++ )
 			{
-				string Path = FileList[ ProcessingID ].Path;
+				string Path = FileList[ ProcessingID ].GetPath();
 
+				FileList[ ProcessingID ].SetStatusFlag( Status.FILE_PROCESSING );
 				// set ui status
-				BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_PROCESSING );
+				BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI );
 				BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_OPEN );
 
 				// search for markers in file
@@ -144,15 +146,17 @@ namespace Program_Editor
 				IfFormatValid();
 
 				// check if all the needed information are there
-				if( FileList[ ProcessingID ].ErrorFlag == Status.NONE )
+				if( FileList[ ProcessingID ].GetErrorFlag() == Status.NONE )
 				{
 					// moving segments in the file
 					MoveSegment( Path );
-					BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_PROCESSED );
+					FileList[ ProcessingID ].SetStatusFlag( Status.FILE_PROCESSING );
+					// BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_PROCESSED );
 				}
 				else
 				{
-					BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_SKIP );
+					FileList[ ProcessingID ].SetStatusFlag( Status.FILE_SKIP );
+					//BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_SKIP );
 				}
 
 				// reset status strip
@@ -177,7 +181,7 @@ namespace Program_Editor
 					{
 						Debug.WriteLine( "==REFRESH_RESULT==" );
 
-						ListViewItem DummyLVT = new ListViewItem( Path.GetFileName( FileList[ ProcessingID ].Path ) );
+						ListViewItem DummyLVT = new ListViewItem( FileList[ ProcessingID ].GetFileName() );
 						DummyLVT.SubItems.Add( "WRITED" );
 						FileListView.Items[ ProcessingID ] = DummyLVT;
 
@@ -194,6 +198,11 @@ namespace Program_Editor
 						//    FileListView.Items[ ProcessingID ].BackColor = Color.White;
 						//}
 
+						break;
+					}
+				case (int)RefreshStatus.UPDATEUI:
+					{
+						
 						break;
 					}
 			}
@@ -378,7 +387,8 @@ namespace Program_Editor
 #if DEBUG
 				MessageBox.Show( "Multiple markers in file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-				DummyValue.ErrorFlag = Status.MARKER_MULTI;
+				//DummyValue.ErrorFlag = Status.MARKER_MULTI;
+				FileList[ProcessingID].SetErrorFlag(Status.MARKER_MULTI);
 			}
 			else
 			{
@@ -389,27 +399,30 @@ namespace Program_Editor
 #if DEBUG
 						MessageBox.Show( "Missing head marker: LN00", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						DummyValue.ErrorFlag = Status.MARKER_MIS_HEAD;
+						//DummyValue.ErrorFlag = Status.MARKER_MIS_HEAD;
+						FileList[ProcessingID].SetErrorFlag(Status.MARKER_MIS_HEAD);
 					}
 					if( TailLine == -1 )
 					{
 #if DEBUG
 						MessageBox.Show( "Missing end marker: M30", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						DummyValue.ErrorFlag = Status.MARKER_MIS_TAIL;
+						//DummyValue.ErrorFlag = Status.MARKER_MIS_TAIL;
+						FileList[ProcessingID].SetErrorFlag(Status.MARKER_MIS_TAIL);
 					}
 					if( HeadLine > TailLine )
 					{
 #if DEBUG
 						MessageBox.Show("Marker in reverse order.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						DummyValue.ErrorFlag = Status.MARKER_REVERSE;
+						//DummyValue.ErrorFlag = Status.MARKER_REVERSE;
+						FileList[ProcessingID].SetErrorFlag(Status.MARKER_REVERSE);
 					}
 				}
 			}
 			
 			// write dummy value back to FileList
-			FileList[ ProcessingID ] = DummyValue;
+			//FileList[ ProcessingID ] = DummyValue;
 		}
 
 		// check if L marker in range
@@ -429,9 +442,10 @@ namespace Program_Editor
 			}
 
 			// write error flag
-			Record DummyValue = FileList[ ProcessingID ];
-			DummyValue.ErrorFlag = Status.MARKER_OB;
-			FileList[ ProcessingID ] = DummyValue;
+			//Record DummyValue = FileList[ ProcessingID ];
+			//DummyValue.ErrorFlag = Status.MARKER_OB;
+			//FileList[ ProcessingID ] = DummyValue;
+			FileList[ProcessingID].SetErrorFlag(Status.MARKER_OB);
 
 			return false;
 		}
@@ -500,6 +514,61 @@ namespace Program_Editor
 		}
 	}
 
+	/*
+	 * 
+	 * public struct Record
+		{
+			public string Path;
+			public Status StatusFlag;
+			public Status ErrorFlag;
+		}
+	 * 
+	*/
+
+	public sealed class Record
+	{
+		private string Path;
+		private Status StatusFlag;
+		private Status ErrorFlag;
+
+		public Record(string Path, Status StatusFlag, Status ErrorFlag)
+		{
+			this.Path = Path;
+			this.StatusFlag = StatusFlag;
+			this.ErrorFlag = ErrorFlag;
+		}
+
+		public string GetPath( )
+		{
+			return Path;
+		}
+
+		public string GetFileName( )
+		{
+			return System.IO.Path.GetFileName( Path );
+		}
+
+		public string GetStatusFlagString( )
+		{
+			return StatusFlag.ToString();
+		}
+
+		public Status GetErrorFlag( )
+		{
+			return ErrorFlag;
+		}
+
+		public void SetStatusFlag(Status StatusFlag)
+		{
+			this.StatusFlag = StatusFlag;
+		}
+
+		public void SetErrorFlag(Status ErrorFlag)
+		{
+			this.ErrorFlag = ErrorFlag;
+		}
+	}
+
 	public sealed class Status
 	{
 		private readonly string name;
@@ -516,7 +585,7 @@ namespace Program_Editor
 		public static readonly Status FILE_PROCESSING = new Status( 10, "..." );
 		public static readonly Status FILE_PROCESSED = new Status( 11, "Processed" );
 		public static readonly Status FILE_SKIP = new Status( 12, "Skipped" );
-		public static readonly Status FILE_LOADED = new Status( 13, "FILE LOADED" );
+		public static readonly Status FILE_LOADED = new Status( 13, "" );
 
 		public static readonly Status EDITOR_OPEN = new Status( 30, "Opening file." );
 		public static readonly Status EDITOR_SEARCHHEAD = new Status( 31, "Searching head marker LN00..." );
