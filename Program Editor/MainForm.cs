@@ -16,11 +16,22 @@ namespace Program_Editor
 		public Status StatusFlag;
 		public Status ErrorFlag;
 	}
+
+	public enum RefreshStatus
+	{
+		PROCESS = 1,
+		RESULT = 2
+	}
 	
 	public partial class MainForm : Form
 	{
 		private List<Record> FileList = new List<Record>();
 		private int ProcessingID;
+
+		private int Occurance = 0;		// how many occurance of the target marker L and M
+		private int HeadLine = -1;		// L position
+		private int TailLine = -1;		// M position
+		private int TotalLine = -1;		// total lines
 		
 		public MainForm( )
 		{
@@ -113,7 +124,27 @@ namespace Program_Editor
 
 		private void BackgroundEditor_DoWork(object sender, DoWorkEventArgs e)
 		{
+			for( ProcessingID = 0; ProcessingID < FileList.Count; ProcessingID++ )
+			{
+				string Path = FileList[ ProcessingID ].Path;
 
+				BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_PROCESSING );
+
+				BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_OPEN );
+
+				// search for markers in file
+				SearchMarkers( Path );
+
+				// check if marker format is valid
+				IfFormatValid();
+
+				// check if all the needed information are there
+				if( FileList[ProcessingID].ErrorFlag == Status.NONE )
+				{
+					// moving segments in the file
+					MoveSegment( Path );
+				}
+			}
 		}
 
 		private void BackgroundEditor_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -122,26 +153,27 @@ namespace Program_Editor
 			//switch( e.UserState.GetType().ToString() as string )
 			switch( e.ProgressPercentage )
 			{
-				case 1: // updating process
+				case (int)RefreshStatus.PROCESS: // updating process
 					{
 						StatusLabel.Text = ( (Status)( e.UserState ) ).ToString();
 						break;
 					}
-				case 2: // updating result, from status flag
+				case (int)RefreshStatus.RESULT: // updating result, from status flag
 					{
 						FileListView.Items[ ProcessingID ].SubItems[ 1 ].Text = ( (Status)( e.UserState ) ).ToString();
+
+						// change colour if error occurred
+						if( FileList[ ProcessingID ].ErrorFlag != Status.NONE )
+						{
+							FileListView.Items[ ProcessingID ].BackColor = Color.Red;
+						}
+						else
+						{
+							FileListView.Items[ ProcessingID ].BackColor = Color.White;
+						}
+
 						break;
 					}
-			}
-
-			// change colour if error occurred
-			if( FileList[ ProcessingID ].ErrorFlag != Status.NONE )
-			{
-				FileListView.Items[ ProcessingID ].BackColor = Color.Red;
-			}
-			else
-			{
-				FileListView.Items[ ProcessingID ].BackColor = Color.White;
 			}
 		}
 
@@ -149,6 +181,69 @@ namespace Program_Editor
 		{
 			// ask if user wants to have a copy of log
 			RequestLog();
+		}
+
+		private void SearchMarkers(string Path)
+		{
+			// reset markers
+			Occurance = 0;
+			HeadLine = -1;
+			TailLine = -1;
+			TotalLine = -1;
+
+			// incdicator for current position in file
+			int LineCounter = 0;
+			string Line;
+
+			using( StreamReader Reader = new StreamReader( Path ) )
+			{
+				// start finding marker until eof
+				while( ( Line = Reader.ReadLine() ) != null )
+				{
+					Debug.WriteLine( LineCounter.ToString() + " : " + Line );
+
+					BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_SEARCHHEAD );
+					// check start marker
+					if( ContainMarker( Line, "*L*00*" ) )
+					{
+						if( IfFormatValid( Line ) )
+						{
+							Debug.WriteLine( "==FOUND START MARKER @ " + LineCounter.ToString() );
+							HeadLine = LineCounter;
+							Occurance++;
+						}
+					}
+
+					BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_SEARCHTAIL );
+					// check end marker
+					if( ContainMarker( Line, "*M30*" ) )
+					{
+						Debug.WriteLine( "==FOUND END MARKER @ " + LineCounter.ToString() );
+						TailLine = LineCounter;
+						Occurance++;
+					}
+
+					// move indicator to next line
+					LineCounter++;
+				}
+			}
+
+			// store the total line count
+			TotalLine = LineCounter;
+		}
+
+		private Status IfFormatValid( )
+		{
+			Record DummyValue;
+			DummyValue = FileList[ ProcessingID ];
+
+
+			
+			return Status.NONE;
+		}
+
+		private void MoveSegment(string Path)
+		{
 		}
 
 		private void RequestLog()
@@ -176,6 +271,12 @@ namespace Program_Editor
 		public static readonly Status FILE_PROCESSED = new Status( 11, "Processed" );
 		public static readonly Status FILE_SKIP = new Status( 12, "Skipped" );
 		public static readonly Status FILE_LOADED = new Status( 13, "" );
+
+		public static readonly Status EDITOR_OPEN = new Status( 30, "Opening file." );
+		public static readonly Status EDITOR_SEARCHHEAD = new Status( 31, "Searching head marker LN00..." );
+		public static readonly Status EDITOR_SEARCHTAIL = new Status( 32, "Searching tail marker M30..." );
+		public static readonly Status EDITOR_MOVING = new Status( 33, "Moving quoted segments." );
+		public static readonly Status EDITOR_SAVE = new Status( 34, "Saving file." );
 
 		public static readonly Status STATUSSTRIP_WAITOPEN = new Status( 20, "Select files from: File > Open." );
 		public static readonly Status STATUSSTRIP_WAITSTART = new Status( 21, "Click start to begin." );
