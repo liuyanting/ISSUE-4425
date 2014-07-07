@@ -135,8 +135,8 @@ namespace Program_Editor
 				string Path = FileList[ ProcessingID ].GetPath();
 
 				FileList[ ProcessingID ].SetStatusFlag( Status.FILE_PROCESSING );
+				BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT );
 				// set ui status
-				BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI );
 				BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_OPEN );
 
 				// search for markers in file
@@ -150,7 +150,7 @@ namespace Program_Editor
 				{
 					// moving segments in the file
 					MoveSegment( Path );
-					FileList[ ProcessingID ].SetStatusFlag( Status.FILE_PROCESSING );
+					FileList[ ProcessingID ].SetStatusFlag( Status.FILE_PROCESSED );
 					// BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_PROCESSED );
 				}
 				else
@@ -159,7 +159,8 @@ namespace Program_Editor
 					//BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_SKIP );
 				}
 
-				// reset status strip
+				// update ui and reset status strip
+				BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT );
 				BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.NONE );
 			}
 		}
@@ -167,7 +168,6 @@ namespace Program_Editor
 		private void BackgroundEditor_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			// identifying which status to update
-			//switch( e.UserState.GetType().ToString() as string )
 			switch( e.ProgressPercentage )
 			{
 				case (int)RefreshStatus.PROCESS: // updating process
@@ -181,28 +181,28 @@ namespace Program_Editor
 					{
 						Debug.WriteLine( "==REFRESH_RESULT==" );
 
-						ListViewItem DummyLVT = new ListViewItem( FileList[ ProcessingID ].GetFileName() );
-						DummyLVT.SubItems.Add( "WRITED" );
-						FileListView.Items[ ProcessingID ] = DummyLVT;
+						//FileListView.Items[ ProcessingID ].SubItems[ 1 ].Text = FileList[ProcessingID].GetStatusFlagString();
 
-						// the minus 1 is cause by the end of array
-						//FileListView.Items[ ProcessingID - 1 ].SubItems[ 0 ].Text = "WRITED";
+						FileListView.Items.Clear();
+						foreach( Record DummyValue in FileList )
+						{
+							FileListView.Items.Add( new ListViewItem( new string[]
+																		{
+																			DummyValue.GetFileName(),
+																			DummyValue.GetStatusFlagString()
+																		} ) );
+							
+							// change colour if error occurred
+							if( DummyValue.GetErrorFlag() != Status.NONE )
+							{
+								FileListView.Items[ FileListView.Items.Count - 1 ].BackColor = Color.Yellow;
+							}
+							else
+							{
+								FileListView.Items[ FileListView.Items.Count - 1 ].BackColor = Color.White;
+							}
+						}
 
-						//// change colour if error occurred
-						//if( FileList[ ProcessingID ].ErrorFlag != Status.NONE )
-						//{
-						//    FileListView.Items[ ProcessingID ].BackColor = Color.Red;
-						//}
-						//else
-						//{
-						//    FileListView.Items[ ProcessingID ].BackColor = Color.White;
-						//}
-
-						break;
-					}
-				case (int)RefreshStatus.UPDATEUI:
-					{
-						
 						break;
 					}
 			}
@@ -378,16 +378,11 @@ namespace Program_Editor
 
 		private void IfFormatValid( )
 		{
-			Record DummyValue;
-			// pull out the processing item from FileList
-			DummyValue = FileList[ ProcessingID ];
-
 			if( Occurance > 2 )
 			{
 #if DEBUG
 				MessageBox.Show( "Multiple markers in file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-				//DummyValue.ErrorFlag = Status.MARKER_MULTI;
 				FileList[ProcessingID].SetErrorFlag(Status.MARKER_MULTI);
 			}
 			else
@@ -399,7 +394,6 @@ namespace Program_Editor
 #if DEBUG
 						MessageBox.Show( "Missing head marker: LN00", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						//DummyValue.ErrorFlag = Status.MARKER_MIS_HEAD;
 						FileList[ProcessingID].SetErrorFlag(Status.MARKER_MIS_HEAD);
 					}
 					if( TailLine == -1 )
@@ -407,7 +401,6 @@ namespace Program_Editor
 #if DEBUG
 						MessageBox.Show( "Missing end marker: M30", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						//DummyValue.ErrorFlag = Status.MARKER_MIS_TAIL;
 						FileList[ProcessingID].SetErrorFlag(Status.MARKER_MIS_TAIL);
 					}
 					if( HeadLine > TailLine )
@@ -415,14 +408,10 @@ namespace Program_Editor
 #if DEBUG
 						MessageBox.Show("Marker in reverse order.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
 #endif
-						//DummyValue.ErrorFlag = Status.MARKER_REVERSE;
 						FileList[ProcessingID].SetErrorFlag(Status.MARKER_REVERSE);
 					}
 				}
 			}
-			
-			// write dummy value back to FileList
-			//FileList[ ProcessingID ] = DummyValue;
 		}
 
 		// check if L marker in range
@@ -442,9 +431,6 @@ namespace Program_Editor
 			}
 
 			// write error flag
-			//Record DummyValue = FileList[ ProcessingID ];
-			//DummyValue.ErrorFlag = Status.MARKER_OB;
-			//FileList[ ProcessingID ] = DummyValue;
 			FileList[ProcessingID].SetErrorFlag(Status.MARKER_OB);
 
 			return false;
@@ -583,7 +569,7 @@ namespace Program_Editor
 		public static readonly Status MARKER_REVERSE = new Status( 5, "Markers in reverse order." );
 
 		public static readonly Status FILE_PROCESSING = new Status( 10, "..." );
-		public static readonly Status FILE_PROCESSED = new Status( 11, "Processed" );
+		public static readonly Status FILE_PROCESSED = new Status( 11, "Modified" );
 		public static readonly Status FILE_SKIP = new Status( 12, "Skipped" );
 		public static readonly Status FILE_LOADED = new Status( 13, "" );
 
