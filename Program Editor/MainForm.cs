@@ -11,18 +11,10 @@ using System.Text.RegularExpressions;
 
 namespace Program_Editor
 {
-	//public struct Record
-	//{
-	//    public string Path;
-	//    public Status StatusFlag;
-	//    public Status ErrorFlag;
-	//}
-
 	public enum RefreshStatus
 	{
 		PROCESS = 1,
-		RESULT = 2,
-		UPDATEUI = 3
+		UPDATEUI = 2,
 	}
 	
 	public partial class MainForm : Form
@@ -76,7 +68,7 @@ namespace Program_Editor
 					FileListView.Items.Add( new ListViewItem( new string[]
 																{
 																	FileList[FileList.Count - 1].GetFileName(),
-																	FileList[FileList.Count - 1].GetStatusFlagString()
+																	FileList[FileList.Count - 1].GetStatusFlag().ToString()
 																} ));
 				}
 
@@ -135,7 +127,7 @@ namespace Program_Editor
 				string Path = FileList[ ProcessingID ].GetPath();
 
 				FileList[ ProcessingID ].SetStatusFlag( Status.FILE_PROCESSING );
-				BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT );
+				BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI );
 				// set ui status
 				BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_OPEN );
 
@@ -151,16 +143,16 @@ namespace Program_Editor
 					// moving segments in the file
 					MoveSegment( Path );
 					FileList[ ProcessingID ].SetStatusFlag( Status.FILE_PROCESSED );
-					// BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_PROCESSED );
+					// BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI, Status.FILE_PROCESSED );
 				}
 				else
 				{
 					FileList[ ProcessingID ].SetStatusFlag( Status.FILE_SKIP );
-					//BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_SKIP );
+					//BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI, Status.FILE_SKIP );
 				}
 
 				// update ui and reset status strip
-				BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT );
+				BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI );
 				BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.NONE );
 			}
 		}
@@ -177,7 +169,7 @@ namespace Program_Editor
 						StatusLabel.Text = ( (Status)( e.UserState ) ).ToString();
 						break;
 					}
-				case (int)RefreshStatus.RESULT: // updating result, from status flag
+				case (int)RefreshStatus.UPDATEUI: // updating result, from status flag
 					{
 						Debug.WriteLine( "==REFRESH_RESULT==" );
 
@@ -189,7 +181,7 @@ namespace Program_Editor
 							FileListView.Items.Add( new ListViewItem( new string[]
 																		{
 																			DummyValue.GetFileName(),
-																			DummyValue.GetStatusFlagString()
+																			DummyValue.GetStatusFlag().ToString()
 																		} ) );
 							
 							// change colour if error occurred
@@ -497,6 +489,41 @@ namespace Program_Editor
 		{
 			// throw new Exception( "The method or operation is not implemented." );
 			Debug.WriteLine( "==INSIDE REQUEST LOG FUNCTION==" );
+
+			List<Record> ErrorPreview = new List<Record>();
+
+			foreach(Record DummyValue in FileList )
+			{
+				if(DummyValue.GetErrorFlag() != Status.NONE )
+				{
+					ErrorPreview.Add( DummyValue );
+				}
+			}
+
+			if(ErrorPreview.Count > 0 )
+			{
+				if( MessageBox.Show( "Some file isn't processed, would you like to know them?",
+									 "Log Output", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes )
+				{
+					string LogPath = "C:\\log-" +
+								  DateTime.Now.ToString( "yyyy-MM-dd-HH-mm-ss" ) +
+								  ".txt";
+
+					using( StreamWriter Writer = new StreamWriter( LogPath ) )
+					{
+						foreach( Record DummyValue in ErrorPreview )
+						{
+							Writer.WriteLine( DummyValue.GetPath() + " :: " + DummyValue.GetErrorFlag().ToString() );
+						}
+					}
+
+					MessageBox.Show( "Log is generated at " + LogPath, "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information );
+				}
+			}
+			else
+			{
+				MessageBox.Show( "Process complete!", "Complete", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			}
 		}
 	}
 
@@ -534,9 +561,9 @@ namespace Program_Editor
 			return System.IO.Path.GetFileName( Path );
 		}
 
-		public string GetStatusFlagString( )
+		public Status GetStatusFlag( )
 		{
-			return StatusFlag.ToString();
+			return StatusFlag;
 		}
 
 		public Status GetErrorFlag( )
