@@ -129,8 +129,8 @@ namespace Program_Editor
 			{
 				string Path = FileList[ ProcessingID ].Path;
 
+				// set ui status
 				BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_PROCESSING );
-
 				BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_OPEN );
 
 				// search for markers in file
@@ -394,6 +394,59 @@ namespace Program_Editor
 
 		private void MoveSegment(string Path)
 		{
+			Debug.WriteLine( "==PRINT SELECTED LINES : " + HeadLine.ToString() + " : " + TailLine.ToString() );
+
+			// report current progress
+			BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_MOVING );
+
+			// position to pickup after the moving
+			int LineCounter = 0;
+			string Line;
+
+			// creating tmp file
+			string TempFile = System.IO.Path.GetTempFileName();
+
+			using( StreamReader Reader = new StreamReader( Path ) )
+			{
+				using( StreamWriter Writer = new StreamWriter( TempFile ) )
+				{
+					// wrtie none moving region
+					while( ( Line = Reader.ReadLine() ) != null )
+					{
+						if( ( LineCounter < HeadLine ) || ( LineCounter > TailLine ) )
+						{
+							// write content to file
+							Writer.WriteLine( Line );
+							Writer.Flush();
+						}
+
+						LineCounter++;
+					}
+
+					// reset reader and counter
+					LineCounter = 0;
+					Reader.DiscardBufferedData();
+					Reader.BaseStream.Seek( 0, SeekOrigin.Begin );
+
+					Debug.WriteLine( "==WRITING QUOTED REGION==" );
+					while( ( Line = Reader.ReadLine() ) != null )
+					{
+						if( ( LineCounter >= HeadLine ) && ( LineCounter <= TailLine ) )
+						{
+							// write content to file
+							Writer.WriteLine( Line );
+							Writer.Flush();
+						}
+
+						LineCounter++;
+					}
+				}
+			}
+
+			// save file by overwriting current file using temporary file
+			BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_SAVE );
+			File.Delete( Path );
+			File.Move( TempFile, Path );
 		}
 
 		private void RequestLog()
