@@ -207,7 +207,9 @@ namespace Program_Editor
 		private void BackgroundEditor_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			// ask if user wants to have a copy of log
+#if ENABLE_LOG
 			RequestLog();
+#endif
 
 			// reset ui
 			btnStart.Enabled = true;
@@ -632,7 +634,7 @@ namespace Program_Editor
 
 		public static readonly Status FILE_PROCESSING = new Status( 10, "..." );
 		public static readonly Status FILE_PROCESSED = new Status( 11, "Modified" );
-		public static readonly Status FILE_SKIP = new Status( 12, "Skipped" );
+		public static readonly Status FILE_SKIP = new Status( 12, "No need to modify" );
 		public static readonly Status FILE_LOADED = new Status( 13, "" );
 
 		public static readonly Status EDITOR_OPEN = new Status( 30, "Opening file." );

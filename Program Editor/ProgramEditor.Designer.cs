@@ -57,7 +57,7 @@ namespace Program_Editor
             this.AboutMenuItem} );
 			this.MenuStrip.Location = new System.Drawing.Point( 0, 0 );
 			this.MenuStrip.Name = "MenuStrip";
-			this.MenuStrip.Size = new System.Drawing.Size( 284, 24 );
+			this.MenuStrip.Size = new System.Drawing.Size( 583, 24 );
 			this.MenuStrip.TabIndex = 0;
 			this.MenuStrip.Text = "menuStrip1";
 			// 
@@ -74,19 +74,19 @@ namespace Program_Editor
 			// OpenMenuItem
 			// 
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size( 152, 22 );
+			this.OpenMenuItem.Size = new System.Drawing.Size( 103, 22 );
 			this.OpenMenuItem.Text = "Open";
 			this.OpenMenuItem.Click += new System.EventHandler( this.OpenMenuItem_Click );
 			// 
 			// FileMenuSeperator1
 			// 
 			this.FileMenuSeperator1.Name = "FileMenuSeperator1";
-			this.FileMenuSeperator1.Size = new System.Drawing.Size( 149, 6 );
+			this.FileMenuSeperator1.Size = new System.Drawing.Size( 100, 6 );
 			// 
 			// ExitMenuItem
 			// 
 			this.ExitMenuItem.Name = "ExitMenuItem";
-			this.ExitMenuItem.Size = new System.Drawing.Size( 152, 22 );
+			this.ExitMenuItem.Size = new System.Drawing.Size( 103, 22 );
 			this.ExitMenuItem.Text = "Exit";
 			this.ExitMenuItem.Click += new System.EventHandler( this.ExitMenuItem_Click );
 			// 
@@ -125,15 +125,16 @@ namespace Program_Editor
 			this.AboutMenuItem.Name = "AboutMenuItem";
 			this.AboutMenuItem.Size = new System.Drawing.Size( 52, 20 );
 			this.AboutMenuItem.Text = "About";
+			this.AboutMenuItem.Visible = false;
 			// 
 			// btnStart
 			// 
 			this.btnStart.Font = new System.Drawing.Font( "Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte)( 0 ) ) );
-			this.btnStart.Location = new System.Drawing.Point( 12, 254 );
-			this.btnStart.Name = "StartButton";
-			this.btnStart.Size = new System.Drawing.Size( 260, 23 );
+			this.btnStart.Location = new System.Drawing.Point( 213, 254 );
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Size = new System.Drawing.Size( 157, 23 );
 			this.btnStart.TabIndex = 2;
-			this.btnStart.Text = "Start";
+			this.btnStart.Text = "Start Conversion";
 			this.btnStart.UseVisualStyleBackColor = true;
 			this.btnStart.Click += new System.EventHandler( this.StartButton_Click );
 			// 
@@ -143,7 +144,7 @@ namespace Program_Editor
             this.StatusLabel} );
 			this.StatusStrip.Location = new System.Drawing.Point( 0, 280 );
 			this.StatusStrip.Name = "StatusStrip";
-			this.StatusStrip.Size = new System.Drawing.Size( 284, 22 );
+			this.StatusStrip.Size = new System.Drawing.Size( 583, 22 );
 			this.StatusStrip.TabIndex = 3;
 			this.StatusStrip.Text = "statusStrip1";
 			// 
@@ -163,7 +164,7 @@ namespace Program_Editor
 			this.FileListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.FileListView.Location = new System.Drawing.Point( 0, 27 );
 			this.FileListView.Name = "FileListView";
-			this.FileListView.Size = new System.Drawing.Size( 284, 221 );
+			this.FileListView.Size = new System.Drawing.Size( 583, 221 );
 			this.FileListView.TabIndex = 4;
 			this.FileListView.UseCompatibleStateImageBehavior = false;
 			this.FileListView.View = System.Windows.Forms.View.Details;
@@ -171,12 +172,12 @@ namespace Program_Editor
 			// FileNameColumn
 			// 
 			this.FileNameColumn.Text = "File Name";
-			this.FileNameColumn.Width = 103;
+			this.FileNameColumn.Width = 312;
 			// 
 			// StatusColumn
 			// 
 			this.StatusColumn.Text = "Status";
-			this.StatusColumn.Width = 170;
+			this.StatusColumn.Width = 207;
 			// 
 			// BackgroundEditor
 			// 
@@ -186,19 +187,19 @@ namespace Program_Editor
 			this.BackgroundEditor.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler( this.BackgroundEditor_RunWorkerCompleted );
 			this.BackgroundEditor.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler( this.BackgroundEditor_ProgressChanged );
 			// 
-			// MainForm
+			// ProgramEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF( 6F, 13F );
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size( 284, 302 );
+			this.ClientSize = new System.Drawing.Size( 583, 302 );
 			this.Controls.Add( this.FileListView );
 			this.Controls.Add( this.StatusStrip );
 			this.Controls.Add( this.btnStart );
 			this.Controls.Add( this.MenuStrip );
 			this.MainMenuStrip = this.MenuStrip;
-			this.Name = "MainForm";
+			this.Name = "ProgramEditor";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "MainForm";
+			this.Text = "Sub-Program Convertor";
 			this.MenuStrip.ResumeLayout( false );
 			this.MenuStrip.PerformLayout();
 			this.StatusStrip.ResumeLayout( false );
