@@ -139,7 +139,7 @@ namespace Program_Editor
 				SearchMarkers( Path );
 
 				// check if marker format is valid
-				IfFormatValid();
+				CheckAndRecordKeywordStatus();
 
 				// check if all the needed information are there
 				if( m_FileList[ m_nProcessingID ].GetErrorFlag() == Status.NONE )
@@ -259,7 +259,7 @@ namespace Program_Editor
 					if( ContainMarker( Line, "*L*00*" ) )
 					{
 						// check if L marker is in range
-						if( IfFormatValid( Line ) )
+						if( CheckAndRecordKeywordStatus( Line ) )
 						{
 							Debug.WriteLine( "==FOUND START MARKER @ " + nLineCounter.ToString() );
 							m_nHeadLine = nLineCounter;
@@ -374,7 +374,7 @@ namespace Program_Editor
 			return bMatched;
 		}
 
-		private void IfFormatValid( )
+		private void CheckAndRecordKeywordStatus( )
 		{
 			if( m_nOccurance > 2 )
 			{
@@ -413,7 +413,7 @@ namespace Program_Editor
 		}
 
 		// check if L marker in range
-		private bool IfFormatValid(string rawString)
+		private bool CheckAndRecordKeywordStatus(string rawString)
 		{
 			int nN;
 			// parsing number from LN00 marker
