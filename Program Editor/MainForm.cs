@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Program_Editor
 {
@@ -232,6 +233,95 @@ namespace Program_Editor
 			TotalLine = LineCounter;
 		}
 
+		// extract and modified from SysExpand.Text library
+		public bool ContainMarker(string input, string pattern)
+		{
+			char wildcard = '*';
+
+			// stack containing input positions that should be tested for further matching
+			int[] inputPosStack = new int[ ( input.Length + 1 ) * ( pattern.Length + 1 ) ];
+			// stack containing pattern positions that should be tested for further matching
+			int[] patternPosStack = new int[ inputPosStack.Length ];
+
+			// points to last occupied entry in stack
+			int stackPos = -1;
+
+			// indicates that input position vs. pattern position has been tested                             
+			bool[ , ] pointTested = new bool[ input.Length + 1, pattern.Length + 1 ];
+
+			// position in input matched up to the first multiple wildcard in pattern
+			int inputPos = 0;
+			// position in pattern matched up to the first multiple wildcard in pattern
+			int patternPos = 0;
+
+			// match beginning of the string until first multiple wildcard in pattern
+			while( inputPos < input.Length && patternPos < pattern.Length &&
+				   pattern[ patternPos ] != wildcard &&
+				   ( input[ inputPos ] == pattern[ patternPos ] || pattern[ patternPos ] == wildcard ) )
+			{
+				inputPos++;
+				patternPos++;
+			}
+
+			// push this position to stack if it points to end of pattern or to a general wildcard character
+			if( patternPos == pattern.Length || pattern[ patternPos ] == wildcard )
+			{
+				pointTested[ inputPos, patternPos ] = true;
+				inputPosStack[ ++stackPos ] = inputPos;
+				patternPosStack[ stackPos ] = patternPos;
+			}
+
+			bool matched = false;
+
+			// repeat matching until either string is matched against the pattern or no more parts remain on stack to test
+			while( stackPos >= 0 && !matched )
+			{
+
+				inputPos = inputPosStack[ stackPos ];         // Pop input and pattern positions from stack
+				patternPos = patternPosStack[ stackPos-- ];   // Matching will succeed if rest of the input string matches rest of the pattern
+
+				if( inputPos == input.Length && patternPos == pattern.Length )
+					matched = true;     // Reached end of both pattern and input string, hence matching is successful
+				else if( patternPos == pattern.Length - 1 )
+					matched = true;     // Current pattern character is multiple wildcard and it will match all the remaining characters in the input string
+				else
+				{
+					// First character in next pattern block is guaranteed to be multiple wildcard
+					// So skip it and search for all matches in input string until next multiple wildcard character is reached in pattern
+
+					for( int curInputStart = inputPos; curInputStart < input.Length; curInputStart++ )
+					{
+
+						int curInputPos = curInputStart;
+						int curPatternPos = patternPos + 1;
+
+						while( curInputPos < input.Length && curPatternPos < pattern.Length &&
+							   pattern[ curPatternPos ] != wildcard &&
+							   ( input[ curInputPos ] == pattern[ curPatternPos ] || pattern[ curPatternPos ] == wildcard ) )
+						{
+							curInputPos++;
+							curPatternPos++;
+						}
+
+						// If we have reached next multiple wildcard character in pattern without breaking the matching sequence,
+						// then we have another candidate for full match.
+						// This candidate should be pushed to stack for further processing.
+						// At the same time, pair (input position, pattern position) will be marked as tested,
+						// so that it will not be pushed to stack later again.
+						if( ( ( curPatternPos == pattern.Length && curInputPos == input.Length ) ||
+							 ( curPatternPos < pattern.Length && pattern[ curPatternPos ] == wildcard ) ) &&
+							!pointTested[ curInputPos, curPatternPos ] )
+						{
+							pointTested[ curInputPos, curPatternPos ] = true;
+							inputPosStack[ ++stackPos ] = curInputPos;
+							patternPosStack[ stackPos ] = curPatternPos;
+						}
+					}
+				}
+			}
+			return matched;
+		}
+
 		private Status IfFormatValid( )
 		{
 			Record DummyValue;
@@ -240,6 +330,22 @@ namespace Program_Editor
 
 			
 			return Status.NONE;
+		}
+
+		// check if L marker in range
+		private bool IfFormatValid(string rawString)
+		{
+			int nN;
+			Regex numberParser = new Regex( @"L\S+\d{2}?", RegexOptions.Compiled );
+			foreach( Match match in numberParser.Matches( rawString ) )
+			{
+				if( int.TryParse( match.Value.Remove( 0, 1 ).Replace( "00", string.Empty ), out nN ) )
+				{
+					if( nN >= 1 && nN <= 89 )
+						return true;
+				}
+			}
+			return false;
 		}
 
 		private void MoveSegment(string Path)
