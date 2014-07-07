@@ -72,7 +72,11 @@ namespace Program_Editor
 					FileList.Add( DummyValue );
 
 					// refresh ListView
-					FileListView.Items.Add( Path.GetFileName( ReadOut ) );
+					FileListView.Items.Add( new ListViewItem( new string[]
+																{
+																	Path.GetFileName( DummyValue.Path ),
+																	DummyValue.StatusFlag.ToString()
+																} ));
 				}
 
 				// file selected, enable start button
@@ -140,11 +144,19 @@ namespace Program_Editor
 				IfFormatValid();
 
 				// check if all the needed information are there
-				if( FileList[ProcessingID].ErrorFlag == Status.NONE )
+				if( FileList[ ProcessingID ].ErrorFlag == Status.NONE )
 				{
 					// moving segments in the file
 					MoveSegment( Path );
+					BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_PROCESSED );
 				}
+				else
+				{
+					BackgroundEditor.ReportProgress( (int)RefreshStatus.RESULT, Status.FILE_SKIP );
+				}
+
+				// reset status strip
+				BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.NONE );
 			}
 		}
 
@@ -156,18 +168,18 @@ namespace Program_Editor
 			{
 				case (int)RefreshStatus.PROCESS: // updating process
 					{
-						Debug.WriteLine( "==REFRESH_STATUS_PROCESS==" );
+						Debug.WriteLine( "==REFRESH_PROCESS==" );
 
 						StatusLabel.Text = ( (Status)( e.UserState ) ).ToString();
 						break;
 					}
 				case (int)RefreshStatus.RESULT: // updating result, from status flag
 					{
-						Debug.WriteLine( "==REFRESH_STATUS_RESULT==" );
+						Debug.WriteLine( "==REFRESH_RESULT==" );
 
-						FileListView.Items[ ProcessingID ].SubItems[ 1 ].Text = ( (Status)( e.UserState ) ).ToString();
+						//FileListView.Items[ ProcessingID ].SubItems[ 0 ].Text = e.UserState.ToString();
 
-						// change colour if error occurred
+						//// change colour if error occurred
 						//if( FileList[ ProcessingID ].ErrorFlag != Status.NONE )
 						//{
 						//    FileListView.Items[ ProcessingID ].BackColor = Color.Red;
@@ -186,6 +198,29 @@ namespace Program_Editor
 		{
 			// ask if user wants to have a copy of log
 			RequestLog();
+
+			// reset ui
+			StartButton.Enabled = true;
+			StartButton.Text = "Start";
+			OpenMenuItem.Enabled = true;
+
+			// check to see if error exists
+			if( e.Error != null )
+			{
+				MessageBox.Show( e.Error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				return;
+			}
+
+			// check to see if the worker is cancelled
+			if( e.Cancelled )
+			{
+				StatusLabel.Text = Status.STATUSSTRIP_CANCELLED.ToString();
+			}
+			else
+			{
+				// everything completed normally
+				StatusLabel.Text = Status.STATUSSTRIP_COMPLETE.ToString();
+			}
 		}
 
 		private void SearchMarkers(string Path)
@@ -455,10 +490,9 @@ namespace Program_Editor
 
 		private void RequestLog()
 		{
-			throw new Exception( "The method or operation is not implemented." );
+			// throw new Exception( "The method or operation is not implemented." );
+			Debug.WriteLine( "==INSIDE REQUEST LOG FUNCTION==" );
 		}
-
-		
 	}
 
 	public sealed class Status
@@ -477,7 +511,7 @@ namespace Program_Editor
 		public static readonly Status FILE_PROCESSING = new Status( 10, "..." );
 		public static readonly Status FILE_PROCESSED = new Status( 11, "Processed" );
 		public static readonly Status FILE_SKIP = new Status( 12, "Skipped" );
-		public static readonly Status FILE_LOADED = new Status( 13, "" );
+		public static readonly Status FILE_LOADED = new Status( 13, "FILE LOADED" );
 
 		public static readonly Status EDITOR_OPEN = new Status( 30, "Opening file." );
 		public static readonly Status EDITOR_SEARCHHEAD = new Status( 31, "Searching head marker LN00..." );
@@ -487,6 +521,8 @@ namespace Program_Editor
 
 		public static readonly Status STATUSSTRIP_WAITOPEN = new Status( 20, "Select files from: File > Open." );
 		public static readonly Status STATUSSTRIP_WAITSTART = new Status( 21, "Click start to begin." );
+		public static readonly Status STATUSSTRIP_CANCELLED = new Status( 22, "Cancelled..." );
+		public static readonly Status STATUSSTRIP_COMPLETE = new Status( 23, "Completed!" );
 
 		private Status(int value, String name)
 		{
