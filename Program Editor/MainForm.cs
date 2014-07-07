@@ -234,7 +234,7 @@ namespace Program_Editor
 		}
 
 		// extract and modified from SysExpand.Text library
-		public bool ContainMarker(string input, string pattern)
+		private bool ContainMarker(string input, string pattern)
 		{
 			char wildcard = '*';
 
@@ -322,14 +322,49 @@ namespace Program_Editor
 			return matched;
 		}
 
-		private Status IfFormatValid( )
+		private void IfFormatValid( )
 		{
 			Record DummyValue;
+			// pull out the processing item from FileList
 			DummyValue = FileList[ ProcessingID ];
 
-
+			if( Occurance > 2 )
+			{
+#if DEBUG
+				MessageBox.Show( "Multiple markers in file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+#endif
+				DummyValue.ErrorFlag = Status.MARKER_MULTI;
+			}
+			else
+			{
+				if( Occurance < 2 )
+				{
+					if( HeadLine == -1 )
+					{
+#if DEBUG
+						MessageBox.Show( "Missing head marker: LN00", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+#endif
+						DummyValue.ErrorFlag = Status.MARKER_MIS_HEAD;
+					}
+					if( TailLine == -1 )
+					{
+#if DEBUG
+						MessageBox.Show( "Missing end marker: M30", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+#endif
+						DummyValue.ErrorFlag = Status.MARKER_MIS_TAIL;
+					}
+					if( HeadLine > TailLine )
+					{
+#if DEBUG
+						MessageBox.Show("Marker in reverse order.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+#endif
+						DummyValue.ErrorFlag = Status.MARKER_REVERSE;
+					}
+				}
+			}
 			
-			return Status.NONE;
+			// write dummy value back to FileList
+			FileList[ ProcessingID ] = DummyValue;
 		}
 
 		// check if L marker in range
