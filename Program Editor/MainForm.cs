@@ -156,22 +156,26 @@ namespace Program_Editor
 			{
 				case (int)RefreshStatus.PROCESS: // updating process
 					{
+						Debug.WriteLine( "==REFRESH_STATUS_PROCESS==" );
+
 						StatusLabel.Text = ( (Status)( e.UserState ) ).ToString();
 						break;
 					}
 				case (int)RefreshStatus.RESULT: // updating result, from status flag
 					{
+						Debug.WriteLine( "==REFRESH_STATUS_RESULT==" );
+
 						FileListView.Items[ ProcessingID ].SubItems[ 1 ].Text = ( (Status)( e.UserState ) ).ToString();
 
 						// change colour if error occurred
-						if( FileList[ ProcessingID ].ErrorFlag != Status.NONE )
-						{
-							FileListView.Items[ ProcessingID ].BackColor = Color.Red;
-						}
-						else
-						{
-							FileListView.Items[ ProcessingID ].BackColor = Color.White;
-						}
+						//if( FileList[ ProcessingID ].ErrorFlag != Status.NONE )
+						//{
+						//    FileListView.Items[ ProcessingID ].BackColor = Color.Red;
+						//}
+						//else
+						//{
+						//    FileListView.Items[ ProcessingID ].BackColor = Color.White;
+						//}
 
 						break;
 					}
