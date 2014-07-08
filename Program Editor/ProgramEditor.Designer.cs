@@ -54,16 +54,16 @@ namespace Program_Editor
 			this.MenuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.MenuStrip.Location = new System.Drawing.Point( 0, 0 );
 			this.MenuStrip.Name = "MenuStrip";
-			this.MenuStrip.Size = new System.Drawing.Size( 583, 40 );
+			this.MenuStrip.Size = new System.Drawing.Size( 583, 28 );
 			this.MenuStrip.TabIndex = 0;
 			this.MenuStrip.Text = "menuStrip1";
 			// 
 			// OpenMenuItem
 			// 
-			this.OpenMenuItem.Image = global::Program_Editor.Properties.Resources.open;
+			this.OpenMenuItem.Image = global::Program_Editor.Properties.Resources.Untitled1;
 			this.OpenMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.OpenMenuItem.Size = new System.Drawing.Size( 32, 24 );
 			this.OpenMenuItem.ToolTipText = "Open";
 			this.OpenMenuItem.MouseLeave += new System.EventHandler( this.OpenMenuItem_MouseLeave );
 			this.OpenMenuItem.MouseEnter += new System.EventHandler( this.OpenMenuItem_MouseEnter );
@@ -76,6 +76,7 @@ namespace Program_Editor
 			this.SelectAllMenuItem.Name = "SelectAllMenuItem";
 			this.SelectAllMenuItem.Size = new System.Drawing.Size( 44, 36 );
 			this.SelectAllMenuItem.ToolTipText = "Select All";
+			this.SelectAllMenuItem.Visible = false;
 			this.SelectAllMenuItem.MouseLeave += new System.EventHandler( this.SelectAllMenuItem_MouseLeave );
 			this.SelectAllMenuItem.MouseEnter += new System.EventHandler( this.SelectAllMenuItem_MouseEnter );
 			this.SelectAllMenuItem.Click += new System.EventHandler( this.SelectAllMenuItem_Click );
@@ -86,6 +87,7 @@ namespace Program_Editor
 			this.RemoveMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.RemoveMenuItem.Name = "RemoveMenuItem";
 			this.RemoveMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.RemoveMenuItem.Visible = false;
 			this.RemoveMenuItem.MouseLeave += new System.EventHandler( this.RemoveMenuItem_MouseLeave );
 			this.RemoveMenuItem.MouseEnter += new System.EventHandler( this.RemoveMenuItem_MouseEnter );
 			this.RemoveMenuItem.Click += new System.EventHandler( this.RemoveMenuItem_Click );
@@ -97,6 +99,7 @@ namespace Program_Editor
 			this.AboutMenuItem.Name = "AboutMenuItem";
 			this.AboutMenuItem.Size = new System.Drawing.Size( 44, 36 );
 			this.AboutMenuItem.ToolTipText = "About";
+			this.AboutMenuItem.Visible = false;
 			this.AboutMenuItem.MouseLeave += new System.EventHandler( this.AboutMenuItem_MouseLeave );
 			this.AboutMenuItem.MouseEnter += new System.EventHandler( this.AboutMenuItem_MouseEnter );
 			this.AboutMenuItem.Click += new System.EventHandler( this.AboutMenuItem_Click );
@@ -130,6 +133,7 @@ namespace Program_Editor
 			// 
 			// FileListView
 			// 
+			this.FileListView.AllowDrop = true;
 			this.FileListView.Columns.AddRange( new System.Windows.Forms.ColumnHeader[] {
             this.FileNameColumn,
             this.StatusColumn} );
@@ -137,13 +141,15 @@ namespace Program_Editor
 			this.FileListView.GridLines = true;
 			this.FileListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.FileListView.HideSelection = false;
-			this.FileListView.Location = new System.Drawing.Point( 0, 43 );
+			this.FileListView.Location = new System.Drawing.Point( 0, 31 );
 			this.FileListView.Name = "FileListView";
-			this.FileListView.Size = new System.Drawing.Size( 583, 205 );
+			this.FileListView.Size = new System.Drawing.Size( 583, 217 );
 			this.FileListView.TabIndex = 4;
 			this.FileListView.UseCompatibleStateImageBehavior = false;
 			this.FileListView.View = System.Windows.Forms.View.Details;
 			this.FileListView.DoubleClick += new System.EventHandler( this.FileListView_DoubleClick );
+			this.FileListView.DragDrop += new System.Windows.Forms.DragEventHandler( this.DnD_DragDrop );
+			this.FileListView.DragEnter += new System.Windows.Forms.DragEventHandler( this.DnD_DragEnter );
 			// 
 			// FileNameColumn
 			// 

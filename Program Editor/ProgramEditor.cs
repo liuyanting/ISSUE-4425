@@ -43,7 +43,7 @@ namespace Program_Editor
 			// clear selection list
 			//m_FileList.Clear();
 			// clear ListView
-			FileListView.Items.Clear();
+			//FileListView.Items.Clear();
 
 			// displays an OpenFileDialog for user to select files
 			OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -54,37 +54,17 @@ namespace Program_Editor
 			// show the dialog
 			if( openFileDialog.ShowDialog() == DialogResult.OK )
 			{
-				// save file list to m_fileList
-				foreach( string ReadOut in openFileDialog.FileNames )
-				{
-					Record DummyValue = new Record( ReadOut, Status.FILE_LOADED, Status.NONE );
-					// add items to m_FileList and check if exist
-					if( !IsIncluded(DummyValue) )
-					{
-						m_FileList.Add( DummyValue );
-
-						// refresh ListView
-						//FileListView.Items.Add( new ListViewItem( new string[]
-						//                                            {
-						//                                                DummyValue.GetFileName(),
-						//                                                DummyValue.GetStatusFlag().ToString()
-						//                                            } ) );
-					}
-				}
-
-				// file selected, enable start button
-				btnStart.Enabled = true;
-				SelectAllMenuItem.Enabled = true;
+				PumpFileInList( openFileDialog.FileNames );
 
 				// refresh ListView
-				foreach(Record DummyValue in m_FileList )
-				{
-					FileListView.Items.Add( new ListViewItem( new string[]
-																	{
-																		DummyValue.GetFileName(),
-																		DummyValue.GetStatusFlag().ToString()
-																	} ) );
-				}
+				//foreach(Record DummyValue in m_FileList )
+				//{
+				//    FileListView.Items.Add( new ListViewItem( new string[]
+				//                                                    {
+				//                                                        DummyValue.GetFileName(),
+				//                                                        DummyValue.GetStatusFlag().ToString()
+				//                                                    } ) );
+				//}
 			}
 			else
 			{
@@ -106,6 +86,45 @@ namespace Program_Editor
 #endif
 		}
 
+		// enable drag-n-drop action
+		private void DnD_DragDrop(object sender, DragEventArgs e)
+		{
+			string[] DragInput = (string[])e.Data.GetData( DataFormats.FileDrop );
+			PumpFileInList( DragInput );
+		}
+
+		private void DnD_DragEnter(object sender, DragEventArgs e)
+		{
+			if( e.Data.GetDataPresent( DataFormats.FileDrop ) )
+				e.Effect = DragDropEffects.Copy;
+		}
+
+		private void PumpFileInList(string[] FilePath)
+		{
+			// save file list to m_fileList
+			foreach( string ReadOut in FilePath )
+			{
+				Record DummyValue = new Record( ReadOut, Status.FILE_LOADED, Status.NONE );
+				// add items to m_FileList and check if exist
+				if( !IsIncluded( DummyValue ) )
+				{
+					m_FileList.Add( DummyValue );
+
+					// refresh ListView
+					FileListView.Items.Add( new ListViewItem( new string[]
+						                                            {
+						                                                DummyValue.GetFileName(),
+						                                                DummyValue.GetStatusFlag().ToString()
+						                                            } ) );
+				}
+			}
+
+			// file selected, enable start button
+			btnStart.Enabled = true;
+			SelectAllMenuItem.Enabled = true;
+		}
+
+		// redundant methodology
 		private bool IsIncluded(Record Input)
 		{
 			foreach( Record DummyValue in m_FileList )
@@ -674,7 +693,7 @@ namespace Program_Editor
 			StatusLabel.Text = Buffer;
 		}
 
-		#endregion
+		#endregion	
 	}
 
 	public sealed class Record
