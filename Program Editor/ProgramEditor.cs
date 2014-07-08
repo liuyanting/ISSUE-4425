@@ -41,7 +41,7 @@ namespace Program_Editor
 		private void OpenMenuItem_Click(object sender, EventArgs e)
 		{
 			// clear selection list
-			m_FileList.Clear();
+			//m_FileList.Clear();
 			// clear ListView
 			FileListView.Items.Clear();
 
@@ -54,28 +54,37 @@ namespace Program_Editor
 			// show the dialog
 			if( openFileDialog.ShowDialog() == DialogResult.OK )
 			{
-				//Record DummyValue;
-
 				// save file list to m_fileList
 				foreach( string ReadOut in openFileDialog.FileNames )
 				{
-					//DummyValue.Path = ReadOut;
-					//DummyValue.StatusFlag = Status.FILE_LOADED;
-					//DummyValue.ErrorFlag = Status.NONE;
-					// add items to m_FileList
-					m_FileList.Add( new Record( ReadOut, Status.FILE_LOADED, Status.NONE ) );
+					Record DummyValue = new Record( ReadOut, Status.FILE_LOADED, Status.NONE );
+					// add items to m_FileList and check if exist
+					if( !IsIncluded(DummyValue) )
+					{
+						m_FileList.Add( DummyValue );
 
-					// refresh ListView
-					FileListView.Items.Add( new ListViewItem( new string[]
-																{
-																	m_FileList[m_FileList.Count - 1].GetFileName(),
-																	m_FileList[m_FileList.Count - 1].GetStatusFlag().ToString()
-																} ) );
+						// refresh ListView
+						//FileListView.Items.Add( new ListViewItem( new string[]
+						//                                            {
+						//                                                DummyValue.GetFileName(),
+						//                                                DummyValue.GetStatusFlag().ToString()
+						//                                            } ) );
+					}
 				}
 
 				// file selected, enable start button
 				btnStart.Enabled = true;
 				SelectAllMenuItem.Enabled = true;
+
+				// refresh ListView
+				foreach(Record DummyValue in m_FileList )
+				{
+					FileListView.Items.Add( new ListViewItem( new string[]
+																	{
+																		DummyValue.GetFileName(),
+																		DummyValue.GetStatusFlag().ToString()
+																	} ) );
+				}
 			}
 			else
 			{
@@ -85,7 +94,7 @@ namespace Program_Editor
 
 			// refresh status bar label
 			StatusLabel.Text = ( btnStart.Enabled ) ? Status.STATUSSTRIP_WAITSTART.ToString() :
-														 Status.STATUSSTRIP_WAITOPEN.ToString();
+														Status.STATUSSTRIP_WAITOPEN.ToString();
 
 #if DEBUG
 			Debug.WriteLine( "\n==FILE INPUT==" );
@@ -95,6 +104,16 @@ namespace Program_Editor
 			}
 			Debug.WriteLine( "==============\n" );
 #endif
+		}
+
+		private bool IsIncluded(Record Input)
+		{
+			foreach( Record DummyValue in m_FileList )
+			{
+				if( Input.GetPath() == DummyValue.GetPath() )
+					return true;
+			}
+			return false;
 		}
 
 		private void StartButton_Click(object sender, EventArgs e)
@@ -124,6 +143,8 @@ namespace Program_Editor
 				BackgroundEditor.RunWorkerAsync();
 			}
 		}
+
+		#region BackgroundEditor
 
 		private void BackgroundEditor_DoWork(object sender, DoWorkEventArgs e)
 		{
@@ -235,6 +256,8 @@ namespace Program_Editor
 				StatusLabel.Text = Status.STATUSSTRIP_COMPLETE.ToString();
 			}
 		}
+
+		#endregion
 
 		private void SearchMarkers(string Path)
 		{
@@ -602,6 +625,56 @@ namespace Program_Editor
 				this.Close();
 			}
 		}
+
+		#region Icon Explanation
+
+		private string Buffer;	// store original string
+
+		private void OpenMenuItem_MouseEnter(object sender, EventArgs e)
+		{
+			Buffer = StatusLabel.Text;
+			StatusLabel.Text = "Open files.";
+		}
+
+		private void OpenMenuItem_MouseLeave(object sender, EventArgs e)
+		{
+			StatusLabel.Text = Buffer;
+		}
+
+		private void SelectAllMenuItem_MouseEnter(object sender, EventArgs e)
+		{
+			Buffer = StatusLabel.Text;
+			StatusLabel.Text = "Select every item in the list.";
+		}
+
+		private void SelectAllMenuItem_MouseLeave(object sender, EventArgs e)
+		{
+			StatusLabel.Text = Buffer;
+		}
+
+		private void RemoveMenuItem_MouseEnter(object sender, EventArgs e)
+		{
+			Buffer = StatusLabel.Text;
+			StatusLabel.Text = "Remove selected item(s).";
+		}
+
+		private void RemoveMenuItem_MouseLeave(object sender, EventArgs e)
+		{
+			StatusLabel.Text = Buffer;
+		}
+
+		private void AboutMenuItem_MouseEnter(object sender, EventArgs e)
+		{
+			Buffer = StatusLabel.Text;
+			StatusLabel.Text = "About this software.";
+		}
+
+		private void AboutMenuItem_MouseLeave(object sender, EventArgs e)
+		{
+			StatusLabel.Text = Buffer;
+		}
+
+		#endregion
 	}
 
 	public sealed class Record
