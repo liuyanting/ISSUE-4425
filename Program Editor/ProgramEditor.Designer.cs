@@ -199,7 +199,7 @@ namespace Program_Editor
 			this.MainMenuStrip = this.MenuStrip;
 			this.Name = "ProgramEditor";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Sub-Program Convertor";
+			this.Text = "Sub-Program Converter";
 			this.MenuStrip.ResumeLayout( false );
 			this.MenuStrip.PerformLayout();
 			this.StatusStrip.ResumeLayout( false );

@@ -32,7 +32,7 @@ namespace Program_Editor
 			InitializeComponent();
 
 			// reset ui
-			btnStart.Text = "Start";
+			btnStart.Text = "Start Conversion";
 			btnStart.Enabled = false;
 			StatusLabel.Text = Status.STATUSSTRIP_WAITOPEN.ToString();
 		}
@@ -644,7 +644,7 @@ namespace Program_Editor
 		public static readonly Status EDITOR_SAVE = new Status( 34, "Saving file." );
 
 		public static readonly Status STATUSSTRIP_WAITOPEN = new Status( 20, "Select files from: File > Open." );
-		public static readonly Status STATUSSTRIP_WAITSTART = new Status( 21, "Click start to begin." );
+		public static readonly Status STATUSSTRIP_WAITSTART = new Status( 21, "Click \"Start Conversion\" to begin." );
 		public static readonly Status STATUSSTRIP_CANCELLED = new Status( 22, "Cancelled..." );
 		public static readonly Status STATUSSTRIP_COMPLETE = new Status( 23, "Completed!" );
 
