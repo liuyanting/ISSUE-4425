@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 namespace Program_Editor
 {
 	partial class ProgramEditor
@@ -28,12 +29,14 @@ namespace Program_Editor
 		/// </summary>
 		private void InitializeComponent( )
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager( typeof( ProgramEditor ) );
 			this.MenuStrip = new System.Windows.Forms.MenuStrip();
 			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ConvertMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SelectAllMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.RemoveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.btnStart = new System.Windows.Forms.Button();
 			this.StatusStrip = new System.Windows.Forms.StatusStrip();
 			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.FileListView = new System.Windows.Forms.ListView();
@@ -48,34 +51,66 @@ namespace Program_Editor
 			// 
 			this.MenuStrip.Items.AddRange( new System.Windows.Forms.ToolStripItem[] {
             this.OpenMenuItem,
+            this.HelpMenuItem,
+            this.AboutMenuItem,
+            this.ConvertMenuItem,
             this.SelectAllMenuItem,
-            this.RemoveMenuItem,
-            this.AboutMenuItem} );
+            this.RemoveMenuItem} );
 			this.MenuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.MenuStrip.Location = new System.Drawing.Point( 0, 0 );
 			this.MenuStrip.Name = "MenuStrip";
-			this.MenuStrip.Size = new System.Drawing.Size( 583, 28 );
+			this.MenuStrip.Size = new System.Drawing.Size( 583, 40 );
 			this.MenuStrip.TabIndex = 0;
 			this.MenuStrip.Text = "menuStrip1";
 			// 
 			// OpenMenuItem
 			// 
-			this.OpenMenuItem.Image = global::Program_Editor.Properties.Resources.Untitled1;
+			this.OpenMenuItem.Image = ( (System.Drawing.Image)( resources.GetObject( "OpenMenuItem.Image" ) ) );
 			this.OpenMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size( 32, 24 );
-			this.OpenMenuItem.ToolTipText = "Open";
+			this.OpenMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.OpenMenuItem.ToolTipText = "Open files.";
 			this.OpenMenuItem.MouseLeave += new System.EventHandler( this.OpenMenuItem_MouseLeave );
 			this.OpenMenuItem.MouseEnter += new System.EventHandler( this.OpenMenuItem_MouseEnter );
 			this.OpenMenuItem.Click += new System.EventHandler( this.OpenMenuItem_Click );
 			// 
+			// HelpMenuItem
+			// 
+			this.HelpMenuItem.Image = global::Program_Editor.Properties.Resources.help;
+			this.HelpMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.HelpMenuItem.Name = "HelpMenuItem";
+			this.HelpMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.HelpMenuItem.MouseLeave += new System.EventHandler( this.HelpMenuItem_MouseLeave );
+			this.HelpMenuItem.MouseEnter += new System.EventHandler( this.HelpMenuItem_MouseEnter );
+			this.HelpMenuItem.Click += new System.EventHandler( this.HelpMenuItem_Click );
+			// 
+			// AboutMenuItem
+			// 
+			this.AboutMenuItem.AutoToolTip = true;
+			this.AboutMenuItem.Image = ( (System.Drawing.Image)( resources.GetObject( "AboutMenuItem.Image" ) ) );
+			this.AboutMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.AboutMenuItem.Name = "AboutMenuItem";
+			this.AboutMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.AboutMenuItem.MouseLeave += new System.EventHandler( this.AboutMenuItem_MouseLeave );
+			this.AboutMenuItem.MouseEnter += new System.EventHandler( this.AboutMenuItem_MouseEnter );
+			this.AboutMenuItem.Click += new System.EventHandler( this.AboutMenuItem_Click );
+			// 
+			// ConvertMenuItem
+			// 
+			this.ConvertMenuItem.AutoToolTip = true;
+			this.ConvertMenuItem.Image = global::Program_Editor.Properties.Resources.convert;
+			this.ConvertMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.ConvertMenuItem.Name = "ConvertMenuItem";
+			this.ConvertMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.ConvertMenuItem.MouseLeave += new System.EventHandler( this.StartButton_MouseLeave );
+			this.ConvertMenuItem.MouseEnter += new System.EventHandler( this.StartButton_MouseEnter );
+			this.ConvertMenuItem.Click += new System.EventHandler( this.StartButton_Click );
+			// 
 			// SelectAllMenuItem
 			// 
-			this.SelectAllMenuItem.Image = global::Program_Editor.Properties.Resources.select_all;
-			this.SelectAllMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.SelectAllMenuItem.Name = "SelectAllMenuItem";
-			this.SelectAllMenuItem.Size = new System.Drawing.Size( 44, 36 );
-			this.SelectAllMenuItem.ToolTipText = "Select All";
+			this.SelectAllMenuItem.Size = new System.Drawing.Size( 67, 36 );
+			this.SelectAllMenuItem.Text = "Select All";
 			this.SelectAllMenuItem.Visible = false;
 			this.SelectAllMenuItem.MouseLeave += new System.EventHandler( this.SelectAllMenuItem_MouseLeave );
 			this.SelectAllMenuItem.MouseEnter += new System.EventHandler( this.SelectAllMenuItem_MouseEnter );
@@ -83,37 +118,13 @@ namespace Program_Editor
 			// 
 			// RemoveMenuItem
 			// 
-			this.RemoveMenuItem.Image = global::Program_Editor.Properties.Resources.remove;
-			this.RemoveMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.RemoveMenuItem.Name = "RemoveMenuItem";
-			this.RemoveMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.RemoveMenuItem.Size = new System.Drawing.Size( 62, 36 );
+			this.RemoveMenuItem.Text = "Remove";
 			this.RemoveMenuItem.Visible = false;
 			this.RemoveMenuItem.MouseLeave += new System.EventHandler( this.RemoveMenuItem_MouseLeave );
 			this.RemoveMenuItem.MouseEnter += new System.EventHandler( this.RemoveMenuItem_MouseEnter );
 			this.RemoveMenuItem.Click += new System.EventHandler( this.RemoveMenuItem_Click );
-			// 
-			// AboutMenuItem
-			// 
-			this.AboutMenuItem.Image = global::Program_Editor.Properties.Resources.about;
-			this.AboutMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.AboutMenuItem.Name = "AboutMenuItem";
-			this.AboutMenuItem.Size = new System.Drawing.Size( 44, 36 );
-			this.AboutMenuItem.ToolTipText = "About";
-			this.AboutMenuItem.Visible = false;
-			this.AboutMenuItem.MouseLeave += new System.EventHandler( this.AboutMenuItem_MouseLeave );
-			this.AboutMenuItem.MouseEnter += new System.EventHandler( this.AboutMenuItem_MouseEnter );
-			this.AboutMenuItem.Click += new System.EventHandler( this.AboutMenuItem_Click );
-			// 
-			// btnStart
-			// 
-			this.btnStart.Font = new System.Drawing.Font( "Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( (byte)( 0 ) ) );
-			this.btnStart.Location = new System.Drawing.Point( 213, 254 );
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size( 157, 23 );
-			this.btnStart.TabIndex = 2;
-			this.btnStart.Text = "Start Conversion";
-			this.btnStart.UseVisualStyleBackColor = true;
-			this.btnStart.Click += new System.EventHandler( this.StartButton_Click );
 			// 
 			// StatusStrip
 			// 
@@ -128,8 +139,8 @@ namespace Program_Editor
 			// StatusLabel
 			// 
 			this.StatusLabel.Name = "StatusLabel";
-			this.StatusLabel.Size = new System.Drawing.Size( 113, 17 );
-			this.StatusLabel.Text = "Processing BLAH.txt";
+			this.StatusLabel.Size = new System.Drawing.Size( 118, 17 );
+			this.StatusLabel.Text = "toolStripStatusLabel1";
 			// 
 			// FileListView
 			// 
@@ -141,9 +152,9 @@ namespace Program_Editor
 			this.FileListView.GridLines = true;
 			this.FileListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.FileListView.HideSelection = false;
-			this.FileListView.Location = new System.Drawing.Point( 0, 31 );
+			this.FileListView.Location = new System.Drawing.Point( 0, 43 );
 			this.FileListView.Name = "FileListView";
-			this.FileListView.Size = new System.Drawing.Size( 583, 217 );
+			this.FileListView.Size = new System.Drawing.Size( 583, 205 );
 			this.FileListView.TabIndex = 4;
 			this.FileListView.UseCompatibleStateImageBehavior = false;
 			this.FileListView.View = System.Windows.Forms.View.Details;
@@ -176,7 +187,6 @@ namespace Program_Editor
 			this.ClientSize = new System.Drawing.Size( 583, 302 );
 			this.Controls.Add( this.FileListView );
 			this.Controls.Add( this.StatusStrip );
-			this.Controls.Add( this.btnStart );
 			this.Controls.Add( this.MenuStrip );
 			this.MainMenuStrip = this.MenuStrip;
 			this.Name = "ProgramEditor";
@@ -194,16 +204,17 @@ namespace Program_Editor
 		#endregion
 
 		private System.Windows.Forms.MenuStrip MenuStrip;
-		private System.Windows.Forms.Button btnStart;
 		private System.Windows.Forms.StatusStrip StatusStrip;
-		private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
 		private System.Windows.Forms.ListView FileListView;
 		private System.Windows.Forms.ColumnHeader FileNameColumn;
 		private System.Windows.Forms.ColumnHeader StatusColumn;
-		private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
 		private System.ComponentModel.BackgroundWorker BackgroundEditor;
 		private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem HelpMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem ConvertMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem SelectAllMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem RemoveMenuItem;
+		private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
 	}
 }

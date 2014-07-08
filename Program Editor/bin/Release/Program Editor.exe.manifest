@@ -27,15 +27,87 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Program Editor.exe" size="53248">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Program Editor.exe" size="49152">
       <assemblyIdentity name="Program Editor" version="2.5.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>0j2hgBpDSMDPwNHSWAIW5LkyFbc=</dsig:DigestValue>
+        <dsig:DigestValue>KLcuPB71L6h6xY69n4Wal0D9VJo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
+  <file name="Resources\about.png" size="2029">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>hPA8KxytdQp0aumsFxwp1wimR7U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\document-edit-icon.png" size="4556">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>JO54tD1K7nm9JLCI6mkg8J34UKk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\folder-add-icon.png" size="4130">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>iKsaQHUIwvNzI6Hat6IoChDA4tQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Info-icon.png" size="16977">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>wvqHnKyVrnIDcEvcvsM5c6r0UHw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\open.png" size="1248">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>TJGrhiNcsFm9WBgM8w7hh3P/K3I=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\remove.png" size="1242">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>owlSEGoyH74OwX26eiQBjzyIcU0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\select_all.png" size="901">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>PAEMiwkIrIl3d611iLoIZhZhj+s=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Resources\Untitled1.png" size="2158">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>epqCol3Q+wcz5f37kxKfxZo+ZAA=</dsig:DigestValue>
+    </hash>
+  </file>
 </asmv1:assembly>

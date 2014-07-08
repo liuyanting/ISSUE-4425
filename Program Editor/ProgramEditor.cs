@@ -33,9 +33,11 @@ namespace Program_Editor
 			InitializeComponent();
 
 			// reset ui
-			btnStart.Text = "Start Conversion";
-			btnStart.Enabled = false;
+			//ConvertMenuItem.Text = "Start Conversion";
+			ConvertMenuItem.Enabled = false;
 			StatusLabel.Text = Status.STATUSSTRIP_WAITOPEN.ToString();
+
+			
 		}
 
 		private void OpenMenuItem_Click(object sender, EventArgs e)
@@ -68,12 +70,12 @@ namespace Program_Editor
 			}
 			else
 			{
-				btnStart.Enabled = false;
+				ConvertMenuItem.Enabled = false;
 				SelectAllMenuItem.Enabled = false;
 			}
 
 			// refresh status bar label
-			StatusLabel.Text = ( btnStart.Enabled ) ? Status.STATUSSTRIP_WAITSTART.ToString() :
+			StatusLabel.Text = ( ConvertMenuItem.Enabled ) ? Status.STATUSSTRIP_WAITSTART.ToString() :
 														Status.STATUSSTRIP_WAITOPEN.ToString();
 
 #if DEBUG
@@ -120,7 +122,7 @@ namespace Program_Editor
 			}
 
 			// file selected, enable start button
-			btnStart.Enabled = true;
+			ConvertMenuItem.Enabled = true;
 			SelectAllMenuItem.Enabled = true;
 		}
 
@@ -141,8 +143,8 @@ namespace Program_Editor
 			// otherwise, launch the thread
 			if( BackgroundEditor.IsBusy )
 			{
-				btnStart.Enabled = false;
-				btnStart.Text = "Stopping...";
+				ConvertMenuItem.Enabled = false;
+				//btnStart.Text = "Stopping...";
 
 				SelectAllMenuItem.Enabled = false;
 
@@ -152,7 +154,7 @@ namespace Program_Editor
 			}
 			else
 			{
-				btnStart.Text = "Cancel";
+				//btnStart.Text = "Cancel";
 
 				// disable open menu item
 				OpenMenuItem.Enabled = false;
@@ -253,8 +255,8 @@ namespace Program_Editor
 #endif
 
 			// reset ui
-			btnStart.Enabled = true;
-			btnStart.Text = "Start";
+			ConvertMenuItem.Enabled = true;
+			//btnStart.Text = "Start";
 			OpenMenuItem.Enabled = true;
 
 			// check to see if error exists
@@ -611,7 +613,7 @@ namespace Program_Editor
 
 			if( FileListView.Items.Count < 1 )
 			{
-				btnStart.Enabled = false;
+				ConvertMenuItem.Enabled = false;
 			}
 		}
 
@@ -621,6 +623,11 @@ namespace Program_Editor
 			{
 				System.Diagnostics.Process.Start( m_FileList[ FileListView.SelectedIndices[ 0 ] ].GetPath() );
 			}
+		}
+
+		private void HelpMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show( "1. Click Open to load file.\n2. Click Convert to begin conversion." , "Help", MessageBoxButtons.OK, MessageBoxIcon.Information );
 		}
 
 		// return assembly version
@@ -647,50 +654,82 @@ namespace Program_Editor
 
 		#region Icon Explanation
 
-		private string Buffer;	// store original string
+		private string strBuffer;	// store original string
+		private Image imgBuffer;	// store original image
 
 		private void OpenMenuItem_MouseEnter(object sender, EventArgs e)
 		{
-			Buffer = StatusLabel.Text;
+			strBuffer = StatusLabel.Text;
 			StatusLabel.Text = "Open files.";
+
+			imgBuffer = OpenMenuItem.Image;
+			OpenMenuItem.Image = null;
+
+			OpenMenuItem.Text = "Open";
 		}
 
 		private void OpenMenuItem_MouseLeave(object sender, EventArgs e)
 		{
-			StatusLabel.Text = Buffer;
+			StatusLabel.Text = strBuffer;
+
+			OpenMenuItem.Image = imgBuffer;
+
+			OpenMenuItem.Text = "";
 		}
 
 		private void SelectAllMenuItem_MouseEnter(object sender, EventArgs e)
 		{
-			Buffer = StatusLabel.Text;
+			strBuffer = StatusLabel.Text;
 			StatusLabel.Text = "Select every item in the list.";
 		}
 
 		private void SelectAllMenuItem_MouseLeave(object sender, EventArgs e)
 		{
-			StatusLabel.Text = Buffer;
+			StatusLabel.Text = strBuffer;
 		}
 
 		private void RemoveMenuItem_MouseEnter(object sender, EventArgs e)
 		{
-			Buffer = StatusLabel.Text;
+			strBuffer = StatusLabel.Text;
 			StatusLabel.Text = "Remove selected item(s).";
 		}
 
 		private void RemoveMenuItem_MouseLeave(object sender, EventArgs e)
 		{
-			StatusLabel.Text = Buffer;
+			StatusLabel.Text = strBuffer;
+		}
+
+		private void HelpMenuItem_MouseEnter(object sender, EventArgs e)
+		{
+			strBuffer = StatusLabel.Text;
+			StatusLabel.Text = "Help";
+		}
+
+		private void HelpMenuItem_MouseLeave(object sender, EventArgs e)
+		{
+			StatusLabel.Text = strBuffer;
 		}
 
 		private void AboutMenuItem_MouseEnter(object sender, EventArgs e)
 		{
-			Buffer = StatusLabel.Text;
+			strBuffer = StatusLabel.Text;
 			StatusLabel.Text = "About this software.";
 		}
 
 		private void AboutMenuItem_MouseLeave(object sender, EventArgs e)
 		{
-			StatusLabel.Text = Buffer;
+			StatusLabel.Text = strBuffer;
+		}
+
+		private void StartButton_MouseEnter(object sender, EventArgs e)
+		{
+			strBuffer = StatusLabel.Text;
+			StatusLabel.Text = "Start conversion.";
+		}
+
+		private void StartButton_MouseLeave(object sender, EventArgs e)
+		{
+			StatusLabel.Text = strBuffer;
 		}
 
 		#endregion	
@@ -764,7 +803,8 @@ namespace Program_Editor
 		public static readonly Status EDITOR_MOVING = new Status( 33, "Moving quoted segments." );
 		public static readonly Status EDITOR_SAVE = new Status( 34, "Saving file." );
 
-		public static readonly Status STATUSSTRIP_WAITOPEN = new Status( 20, "Select files from: File > Open." );
+		//public static readonly Status STATUSSTRIP_WAITOPEN = new Status( 20, "Select files from: File > Open." );
+		public static readonly Status STATUSSTRIP_WAITOPEN = new Status( 20, "" );
 		public static readonly Status STATUSSTRIP_WAITSTART = new Status( 21, "Click \"Start Conversion\" to begin." );
 		public static readonly Status STATUSSTRIP_CANCELLED = new Status( 22, "Cancelled..." );
 		public static readonly Status STATUSSTRIP_COMPLETE = new Status( 23, "Completed!" );

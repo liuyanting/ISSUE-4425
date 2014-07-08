@@ -67,16 +67,16 @@ namespace Program_Editor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap document_edit_icon {
+        internal static System.Drawing.Bitmap convert {
             get {
-                object obj = ResourceManager.GetObject("document-edit-icon", resourceCulture);
+                object obj = ResourceManager.GetObject("convert", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap folder_add_icon {
+        internal static System.Drawing.Bitmap help {
             get {
-                object obj = ResourceManager.GetObject("folder-add-icon", resourceCulture);
+                object obj = ResourceManager.GetObject("help", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -98,13 +98,6 @@ namespace Program_Editor.Properties {
         internal static System.Drawing.Bitmap select_all {
             get {
                 object obj = ResourceManager.GetObject("select_all", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap Untitled1 {
-            get {
-                object obj = ResourceManager.GetObject("Untitled1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

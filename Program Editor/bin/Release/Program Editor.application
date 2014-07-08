@@ -4,14 +4,14 @@
   <description asmv2:publisher="Program Editor" asmv2:product="Program Editor" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" />
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Program Editor.exe.manifest" size="2210">
+    <dependentAssembly dependencyType="install" codebase="Program Editor.exe.manifest" size="5278">
       <assemblyIdentity name="Program Editor.exe" version="1.1.3.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>iV8JIvqFkb6g7+iuOpyyLyapG9c=</dsig:DigestValue>
+        <dsig:DigestValue>Owe8kiRcICMJkadPJvJo4haUA1o=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
