@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace Program_Editor
 {
@@ -551,7 +552,7 @@ namespace Program_Editor
 		{
 			if( FileListView.SelectedItems.Count > 0 )
 			{
-				if( MessageBox.Show( "Would you like to delete selected items?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes )
+				if( MessageBox.Show( "Would you like to remove selected items?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes )
 				{
 					for( int i = FileListView.SelectedItems.Count - 1; i >= 0; i-- )
 					{
@@ -566,7 +567,7 @@ namespace Program_Editor
 				MessageBox.Show( "Please select at least on items.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
 			}
 
-			if( FileListView.SelectedItems.Count < 1 )
+			if( FileListView.Items.Count < 1 )
 			{
 				btnStart.Enabled = false;
 			}
@@ -578,7 +579,21 @@ namespace Program_Editor
 			{
 				System.Diagnostics.Process.Start( m_FileList[ FileListView.SelectedIndices[ 0 ] ].GetPath() );
 			}
-		}	
+		}
+
+		// return assembly version
+		public string CurrentVersion
+		{
+			get
+			{
+				return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+			}
+		}      
+
+		private void AboutMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show( "Sub-Program Converter\n\nVersion: v" + CurrentVersion, "About", MessageBoxButtons.OK, MessageBoxIcon.Information );
+		}
 
 		private void ExitMenuItem_Click(object sender, EventArgs e)
 		{

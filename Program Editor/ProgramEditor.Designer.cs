@@ -121,11 +121,10 @@ namespace Program_Editor
 			// 
 			// AboutMenuItem
 			// 
-			this.AboutMenuItem.Enabled = false;
 			this.AboutMenuItem.Name = "AboutMenuItem";
 			this.AboutMenuItem.Size = new System.Drawing.Size( 52, 20 );
 			this.AboutMenuItem.Text = "About";
-			this.AboutMenuItem.Visible = false;
+			this.AboutMenuItem.Click += new System.EventHandler( this.AboutMenuItem_Click );
 			// 
 			// btnStart
 			// 
