@@ -88,7 +88,7 @@ namespace Program_Editor
 
 #if DEBUG
 			Debug.WriteLine( "\n==FILE INPUT==" );
-			foreach( Record ReadOut in FileList )
+			foreach( Record ReadOut in m_FileList )
 			{
 				Debug.WriteLine( ReadOut.GetPath() );
 			}
@@ -168,14 +168,14 @@ namespace Program_Editor
 			{
 				case (int)RefreshStatus.PROCESS: // updating process
 					{
-						Debug.WriteLine( "==REFRESH_PROCESS==" );
+						//Debug.WriteLine( "==REFRESH_PROCESS==" );
 
 						StatusLabel.Text = ( (Status)( e.UserState ) ).ToString();
 						break;
 					}
 				case (int)RefreshStatus.UPDATEUI: // updating result, from status flag
 					{
-						Debug.WriteLine( "==REFRESH_RESULT==" );
+						//Debug.WriteLine( "==REFRESH_RESULT==" );
 
 						//FileListView.Items[ m_nProcessingID ].SubItems[ 1 ].Text = m_FileList[m_nProcessingID].GetStatusFlagString();
 
@@ -256,14 +256,15 @@ namespace Program_Editor
 
 					BackgroundEditor.ReportProgress( (int)RefreshStatus.PROCESS, Status.EDITOR_SEARCHHEAD );
 					// check start marker
-					if( ContainMarker( Line, "*L*00*" ) )
+					if( ContainMarker( Line, "*L*00*" ) && m_nHeadLine == -1 )
 					{
 						// check if L marker is in range
 						if( CheckAndRecordKeywordStatus( Line ) )
 						{
 							Debug.WriteLine( "==FOUND START MARKER @ " + nLineCounter.ToString() );
 							m_nHeadLine = nLineCounter;
-							m_nOccurance++;
+							// multiple L marker is acceptable
+							//m_nOccurance++;
 						}
 					}
 

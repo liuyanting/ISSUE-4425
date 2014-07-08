@@ -25,3 +25,16 @@ C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Edi
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Editor.application
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Editor.exe
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program Editor.pdb
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program_Editor.ProgramEditor.resources
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program_Editor.Properties.Resources.resources
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.csproj.GenerateResource.Cache
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Debug\Program Editor.exe.manifest
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Debug\Program Editor.application
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Debug\Program Editor.exe
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\bin\Debug\Program Editor.pdb
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.TrustInfo.xml
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.exe.manifest
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.application
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.exe
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.pdb
