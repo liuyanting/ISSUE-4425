@@ -564,7 +564,20 @@ namespace Program_Editor
 			{
 				MessageBox.Show( "Please select at least on items.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
 			}
+
+			if( FileListView.SelectedItems.Count < 1 )
+			{
+				btnStart.Enabled = false;
+			}
 		}
+
+		private void FileListView_DoubleClick(object sender, EventArgs e)
+		{
+			if( FileListView.SelectedItems.Count > 0 )
+			{
+
+			}
+		}	
 
 		private void ExitMenuItem_Click(object sender, EventArgs e)
 		{
@@ -573,6 +586,8 @@ namespace Program_Editor
 				this.Close();
 			}
 		}
+
+		
 	}
 
 	public sealed class Record

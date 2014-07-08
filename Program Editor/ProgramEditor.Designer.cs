@@ -169,6 +169,7 @@ namespace Program_Editor
 			this.FileListView.TabIndex = 4;
 			this.FileListView.UseCompatibleStateImageBehavior = false;
 			this.FileListView.View = System.Windows.Forms.View.Details;
+			this.FileListView.DoubleClick += new System.EventHandler( this.FileListView_DoubleClick );
 			// 
 			// FileNameColumn
 			// 
