@@ -575,7 +575,7 @@ namespace Program_Editor
 		{
 			if( FileListView.SelectedItems.Count > 0 )
 			{
-
+				System.Diagnostics.Process.Start( m_FileList[ FileListView.SelectedIndices[ 0 ] ].GetPath() );
 			}
 		}	
 
