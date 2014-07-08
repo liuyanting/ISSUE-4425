@@ -586,8 +586,6 @@ namespace Program_Editor
 				this.Close();
 			}
 		}
-
-		
 	}
 
 	public sealed class Record
