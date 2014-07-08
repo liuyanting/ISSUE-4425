@@ -162,6 +162,7 @@ namespace Program_Editor
 			this.FileListView.FullRowSelect = true;
 			this.FileListView.GridLines = true;
 			this.FileListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.FileListView.HideSelection = false;
 			this.FileListView.Location = new System.Drawing.Point( 0, 27 );
 			this.FileListView.Name = "FileListView";
 			this.FileListView.Size = new System.Drawing.Size( 583, 221 );
