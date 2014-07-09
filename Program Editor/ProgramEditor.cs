@@ -652,6 +652,7 @@ namespace Program_Editor
 			}
 		}
 
+		/*
 		#region Icon Explanation
 
 		private string strBuffer;	// store original string
@@ -733,6 +734,7 @@ namespace Program_Editor
 		}
 
 		#endregion	
+		*/
 	}
 
 	public sealed class Record

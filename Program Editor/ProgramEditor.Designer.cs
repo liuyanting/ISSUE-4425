@@ -31,10 +31,6 @@ namespace Program_Editor
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager( typeof( ProgramEditor ) );
 			this.MenuStrip = new System.Windows.Forms.MenuStrip();
-			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ConvertMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.SelectAllMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.RemoveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.StatusStrip = new System.Windows.Forms.StatusStrip();
@@ -43,6 +39,10 @@ namespace Program_Editor
 			this.FileNameColumn = new System.Windows.Forms.ColumnHeader();
 			this.StatusColumn = new System.Windows.Forms.ColumnHeader();
 			this.BackgroundEditor = new System.ComponentModel.BackgroundWorker();
+			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ConvertMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MenuStrip.SuspendLayout();
 			this.StatusStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -59,52 +59,10 @@ namespace Program_Editor
 			this.MenuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.MenuStrip.Location = new System.Drawing.Point( 0, 0 );
 			this.MenuStrip.Name = "MenuStrip";
+			this.MenuStrip.ShowItemToolTips = true;
 			this.MenuStrip.Size = new System.Drawing.Size( 583, 40 );
 			this.MenuStrip.TabIndex = 0;
 			this.MenuStrip.Text = "menuStrip1";
-			// 
-			// OpenMenuItem
-			// 
-			this.OpenMenuItem.Image = ( (System.Drawing.Image)( resources.GetObject( "OpenMenuItem.Image" ) ) );
-			this.OpenMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.OpenMenuItem.Name = "OpenMenuItem";
-			this.OpenMenuItem.Size = new System.Drawing.Size( 44, 36 );
-			this.OpenMenuItem.ToolTipText = "Open files.";
-			this.OpenMenuItem.MouseLeave += new System.EventHandler( this.OpenMenuItem_MouseLeave );
-			this.OpenMenuItem.MouseEnter += new System.EventHandler( this.OpenMenuItem_MouseEnter );
-			this.OpenMenuItem.Click += new System.EventHandler( this.OpenMenuItem_Click );
-			// 
-			// HelpMenuItem
-			// 
-			this.HelpMenuItem.Image = global::Program_Editor.Properties.Resources.help;
-			this.HelpMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.HelpMenuItem.Name = "HelpMenuItem";
-			this.HelpMenuItem.Size = new System.Drawing.Size( 44, 36 );
-			this.HelpMenuItem.MouseLeave += new System.EventHandler( this.HelpMenuItem_MouseLeave );
-			this.HelpMenuItem.MouseEnter += new System.EventHandler( this.HelpMenuItem_MouseEnter );
-			this.HelpMenuItem.Click += new System.EventHandler( this.HelpMenuItem_Click );
-			// 
-			// AboutMenuItem
-			// 
-			this.AboutMenuItem.AutoToolTip = true;
-			this.AboutMenuItem.Image = ( (System.Drawing.Image)( resources.GetObject( "AboutMenuItem.Image" ) ) );
-			this.AboutMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.AboutMenuItem.Name = "AboutMenuItem";
-			this.AboutMenuItem.Size = new System.Drawing.Size( 44, 36 );
-			this.AboutMenuItem.MouseLeave += new System.EventHandler( this.AboutMenuItem_MouseLeave );
-			this.AboutMenuItem.MouseEnter += new System.EventHandler( this.AboutMenuItem_MouseEnter );
-			this.AboutMenuItem.Click += new System.EventHandler( this.AboutMenuItem_Click );
-			// 
-			// ConvertMenuItem
-			// 
-			this.ConvertMenuItem.AutoToolTip = true;
-			this.ConvertMenuItem.Image = global::Program_Editor.Properties.Resources.convert;
-			this.ConvertMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.ConvertMenuItem.Name = "ConvertMenuItem";
-			this.ConvertMenuItem.Size = new System.Drawing.Size( 44, 36 );
-			this.ConvertMenuItem.MouseLeave += new System.EventHandler( this.StartButton_MouseLeave );
-			this.ConvertMenuItem.MouseEnter += new System.EventHandler( this.StartButton_MouseEnter );
-			this.ConvertMenuItem.Click += new System.EventHandler( this.StartButton_Click );
 			// 
 			// SelectAllMenuItem
 			// 
@@ -179,6 +137,49 @@ namespace Program_Editor
 			this.BackgroundEditor.DoWork += new System.ComponentModel.DoWorkEventHandler( this.BackgroundEditor_DoWork );
 			this.BackgroundEditor.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler( this.BackgroundEditor_RunWorkerCompleted );
 			this.BackgroundEditor.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler( this.BackgroundEditor_ProgressChanged );
+			// 
+			// OpenMenuItem
+			// 
+			this.OpenMenuItem.Image = global::Program_Editor.Properties.Resources.open;
+			this.OpenMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.OpenMenuItem.Name = "OpenMenuItem";
+			this.OpenMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.OpenMenuItem.ToolTipText = "Open files.";
+			this.OpenMenuItem.MouseLeave += new System.EventHandler( this.OpenMenuItem_MouseLeave );
+			this.OpenMenuItem.MouseEnter += new System.EventHandler( this.OpenMenuItem_MouseEnter );
+			this.OpenMenuItem.Click += new System.EventHandler( this.OpenMenuItem_Click );
+			// 
+			// HelpMenuItem
+			// 
+			this.HelpMenuItem.Image = global::Program_Editor.Properties.Resources.help;
+			this.HelpMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.HelpMenuItem.Name = "HelpMenuItem";
+			this.HelpMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.HelpMenuItem.MouseLeave += new System.EventHandler( this.HelpMenuItem_MouseLeave );
+			this.HelpMenuItem.MouseEnter += new System.EventHandler( this.HelpMenuItem_MouseEnter );
+			this.HelpMenuItem.Click += new System.EventHandler( this.HelpMenuItem_Click );
+			// 
+			// AboutMenuItem
+			// 
+			this.AboutMenuItem.AutoToolTip = true;
+			this.AboutMenuItem.Image = ( (System.Drawing.Image)( resources.GetObject( "AboutMenuItem.Image" ) ) );
+			this.AboutMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.AboutMenuItem.Name = "AboutMenuItem";
+			this.AboutMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.AboutMenuItem.MouseLeave += new System.EventHandler( this.AboutMenuItem_MouseLeave );
+			this.AboutMenuItem.MouseEnter += new System.EventHandler( this.AboutMenuItem_MouseEnter );
+			this.AboutMenuItem.Click += new System.EventHandler( this.AboutMenuItem_Click );
+			// 
+			// ConvertMenuItem
+			// 
+			this.ConvertMenuItem.AutoToolTip = true;
+			this.ConvertMenuItem.Image = global::Program_Editor.Properties.Resources.start;
+			this.ConvertMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.ConvertMenuItem.Name = "ConvertMenuItem";
+			this.ConvertMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.ConvertMenuItem.MouseLeave += new System.EventHandler( this.StartButton_MouseLeave );
+			this.ConvertMenuItem.MouseEnter += new System.EventHandler( this.StartButton_MouseEnter );
+			this.ConvertMenuItem.Click += new System.EventHandler( this.StartButton_Click );
 			// 
 			// ProgramEditor
 			// 

@@ -60,23 +60,16 @@ namespace Program_Editor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap about {
-            get {
-                object obj = ResourceManager.GetObject("about", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap convert {
-            get {
-                object obj = ResourceManager.GetObject("convert", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap help {
             get {
                 object obj = ResourceManager.GetObject("help", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap info {
+            get {
+                object obj = ResourceManager.GetObject("info", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -88,16 +81,9 @@ namespace Program_Editor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap remove {
+        internal static System.Drawing.Bitmap start {
             get {
-                object obj = ResourceManager.GetObject("remove", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap select_all {
-            get {
-                object obj = ResourceManager.GetObject("select_all", resourceCulture);
+                object obj = ResourceManager.GetObject("start", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
