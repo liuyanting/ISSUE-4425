@@ -50,7 +50,7 @@ namespace Program_Editor
 			this.FileNameColumn.Width = this.FileListView.Width * 76 / 100;
 			this.StatusColumn.Width = this.FileListView.Width * 20 / 100;
 
-			// showing vertical scroll bar only
+			// show vertical scroll bar only
 			ShowScrollBar( FileListView.Handle, (int)SB_VERT, true );
 		}
 
@@ -676,6 +676,19 @@ namespace Program_Editor
 			if( MessageBox.Show( "Are you sure?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question ) == DialogResult.Yes )
 			{
 				this.Close();
+			}
+		}
+
+		// refresh for green background
+		private void StatusLabel_TextChanged(object sender, EventArgs e)
+		{
+			if( StatusLabel.Text == Status.STATUSSTRIP_COMPLETE.ToString() )
+			{
+				StatusStrip.BackColor = Color.LightGreen;
+			}
+			else
+			{
+				StatusStrip.BackColor = SystemColors.Control;
 			}
 		}
 

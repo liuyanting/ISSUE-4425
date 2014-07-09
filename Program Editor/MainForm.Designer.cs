@@ -115,6 +115,7 @@ namespace Program_Editor
 			this.StatusLabel.Name = "StatusLabel";
 			this.StatusLabel.Size = new System.Drawing.Size( 116, 17 );
 			this.StatusLabel.Text = "Showing status here.";
+			this.StatusLabel.TextChanged += new System.EventHandler( this.StatusLabel_TextChanged );
 			// 
 			// FileListView
 			// 
