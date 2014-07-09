@@ -18,7 +18,7 @@ namespace Program_Editor
 		UPDATEUI = 2,
 	}
 
-	public partial class ProgramEditor : Form
+	public partial class MainForm : Form
 	{
 		private List<Record> m_FileList = new List<Record>();
 		private int m_nProcessingID;
@@ -28,7 +28,7 @@ namespace Program_Editor
 		private int m_nTailLine = -1;		// M position
 		private int m_nTotalLine = -1;		// total lines
 
-		public ProgramEditor( )
+		public MainForm( )
 		{
 			InitializeComponent();
 
@@ -71,7 +71,7 @@ namespace Program_Editor
 			else
 			{
 				ConvertMenuItem.Enabled = false;
-				SelectAllMenuItem.Enabled = false;
+				//SelectAllMenuItem.Enabled = false;
 			}
 
 			// refresh status bar label
@@ -127,7 +127,7 @@ namespace Program_Editor
 
 			// file selected, enable start button
 			ConvertMenuItem.Enabled = true;
-			SelectAllMenuItem.Enabled = true;
+			//SelectAllMenuItem.Enabled = true;
 		}
 
 		// redundant methodology
@@ -150,7 +150,7 @@ namespace Program_Editor
 				ConvertMenuItem.Enabled = false;
 				//btnStart.Text = "Stopping...";
 
-				SelectAllMenuItem.Enabled = false;
+				//SelectAllMenuItem.Enabled = false;
 
 				Debug.WriteLine( "==TRYING TO STOP BG THREAD==" );
 				// notify the background worker that a cancel has been requested
@@ -631,7 +631,7 @@ namespace Program_Editor
 
 		private void HelpMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show( "1. Click Open to load file.\n2. Click Convert to begin conversion." , "Help", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			MessageBox.Show( "1. Click Open to load file.\n2. Click Convert to begin conversion.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Question );
 		}
 
 		// return assembly version
@@ -656,7 +656,68 @@ namespace Program_Editor
 			}
 		}
 
-		
+		#region Custom ListView
+
+		private void FileListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+		{
+			e.DrawDefault = true;
+			return;
+			
+			if( ( e.ColumnIndex == 0 ) )
+			{
+				CheckBox HeaderCheckBox = new CheckBox();
+				// With...
+				//Text = "";
+				//Visible = true;
+
+				// start painting checkbox
+				FileListView.SuspendLayout();
+				e.DrawBackground();
+				HeaderCheckBox.BackColor = Color.Transparent;
+				HeaderCheckBox.UseVisualStyleBackColor = true;
+				HeaderCheckBox.SetBounds( e.Bounds.X, e.Bounds.Y, HeaderCheckBox.GetPreferredSize( new Size( e.Bounds.Width, e.Bounds.Height ) ).Width, HeaderCheckBox.GetPreferredSize( new Size( e.Bounds.Width, e.Bounds.Height ) ).Width );
+				HeaderCheckBox.Size = new Size( ( HeaderCheckBox.GetPreferredSize( new Size( ( e.Bounds.Width - 1 ), e.Bounds.Height ) ).Width + 1 ), e.Bounds.Height );
+				HeaderCheckBox.Location = new Point( 3, 0 );
+				FileListView.Controls.Add( HeaderCheckBox );
+				HeaderCheckBox.Show();
+				HeaderCheckBox.BringToFront();
+				e.DrawText( ( TextFormatFlags.VerticalCenter | TextFormatFlags.Left ) );
+
+				HeaderCheckBox.Click += new EventHandler( Bink );
+
+				FileListView.ResumeLayout( true );
+
+			}
+			else
+			{
+				e.DrawDefault = true;
+			}
+		}
+
+		private void FileListView_DrawItem(object sender, DrawListViewItemEventArgs e)
+		{
+			e.DrawDefault = true;
+		}
+
+		private void FileListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+		{
+			e.DrawDefault = true;
+		}
+
+		private void Bink(object sender, System.EventArgs e)
+		{
+			CheckBox test = sender as CheckBox;
+
+			for( int i = 0; i < FileListView.Items.Count; i++ )
+			{
+
+				FileListView.Items[ i ].Checked = test.Checked;
+
+			}
+		}
+		#endregion
+
+
 		#region Icon Explanation
 		/*
 		private string strBuffer;	// store original string

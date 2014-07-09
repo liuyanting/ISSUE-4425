@@ -17,7 +17,7 @@ namespace Program_Editor
 			// Application.Run( new ProgramEditor() );
 
 			// initiate form
-			ProgramEditor MyForm = new ProgramEditor();
+			MainForm MyForm = new MainForm();
 			// lock form size
 			MyForm.FormBorderStyle = FormBorderStyle.FixedSingle;
 			MyForm.MaximizeBox = false;
