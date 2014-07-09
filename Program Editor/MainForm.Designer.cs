@@ -50,8 +50,9 @@ namespace Program_Editor
 			this.MenuStrip.Items.AddRange( new System.Windows.Forms.ToolStripItem[] {
             this.OpenMenuItem,
             this.ConvertMenuItem,
-            this.HelpMenuItem,
-            this.AboutMenuItem} );
+			this.AboutMenuItem,
+            this.HelpMenuItem
+            } );
 			this.MenuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.MenuStrip.Location = new System.Drawing.Point( 0, 0 );
 			this.MenuStrip.Name = "MenuStrip";
