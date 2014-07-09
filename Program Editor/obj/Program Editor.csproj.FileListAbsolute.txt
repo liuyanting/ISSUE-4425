@@ -24,3 +24,4 @@ C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Edito
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.exe
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Debug\Program Editor.pdb
 C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program_Editor.MainForm.resources
+C:\Users\Andy\Documents\GitHub\ISSUE-4425\Program Editor\obj\Release\Program_Editor.HelpForm.resources

@@ -127,17 +127,13 @@ namespace Program_Editor
 			this.FileListView.HideSelection = false;
 			this.FileListView.Location = new System.Drawing.Point( 0, 43 );
 			this.FileListView.Name = "FileListView";
-			this.FileListView.OwnerDraw = true;
 			this.FileListView.Size = new System.Drawing.Size( 583, 234 );
 			this.FileListView.TabIndex = 4;
 			this.FileListView.UseCompatibleStateImageBehavior = false;
 			this.FileListView.View = System.Windows.Forms.View.Details;
-			this.FileListView.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler( this.FileListView_DrawColumnHeader );
-			this.FileListView.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler( this.FileListView_DrawItem );
 			this.FileListView.DoubleClick += new System.EventHandler( this.FileListView_DoubleClick );
 			this.FileListView.DragDrop += new System.Windows.Forms.DragEventHandler( this.DnD_DragDrop );
 			this.FileListView.DragEnter += new System.Windows.Forms.DragEventHandler( this.DnD_DragEnter );
-			this.FileListView.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler( this.FileListView_DrawSubItem );
 			// 
 			// FileNameColumn
 			// 

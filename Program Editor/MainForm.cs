@@ -631,7 +631,9 @@ namespace Program_Editor
 
 		private void HelpMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show( "1. Click Open to load file.\n2. Click Convert to begin conversion.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Question );
+			//MessageBox.Show( "1. Click Open to load file.\n2. Click Convert to begin conversion.", "Help", MessageBoxButtons.OK, MessageBoxIcon.Question );
+			HelpForm Help = new HelpForm();
+			Help.ShowDialog();
 		}
 
 		// return assembly version
@@ -655,68 +657,6 @@ namespace Program_Editor
 				this.Close();
 			}
 		}
-
-		#region Custom ListView
-
-		private void FileListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-		{
-			e.DrawDefault = true;
-			return;
-			
-			if( ( e.ColumnIndex == 0 ) )
-			{
-				CheckBox HeaderCheckBox = new CheckBox();
-				// With...
-				//Text = "";
-				//Visible = true;
-
-				// start painting checkbox
-				FileListView.SuspendLayout();
-				e.DrawBackground();
-				HeaderCheckBox.BackColor = Color.Transparent;
-				HeaderCheckBox.UseVisualStyleBackColor = true;
-				HeaderCheckBox.SetBounds( e.Bounds.X, e.Bounds.Y, HeaderCheckBox.GetPreferredSize( new Size( e.Bounds.Width, e.Bounds.Height ) ).Width, HeaderCheckBox.GetPreferredSize( new Size( e.Bounds.Width, e.Bounds.Height ) ).Width );
-				HeaderCheckBox.Size = new Size( ( HeaderCheckBox.GetPreferredSize( new Size( ( e.Bounds.Width - 1 ), e.Bounds.Height ) ).Width + 1 ), e.Bounds.Height );
-				HeaderCheckBox.Location = new Point( 3, 0 );
-				FileListView.Controls.Add( HeaderCheckBox );
-				HeaderCheckBox.Show();
-				HeaderCheckBox.BringToFront();
-				e.DrawText( ( TextFormatFlags.VerticalCenter | TextFormatFlags.Left ) );
-
-				HeaderCheckBox.Click += new EventHandler( Bink );
-
-				FileListView.ResumeLayout( true );
-
-			}
-			else
-			{
-				e.DrawDefault = true;
-			}
-		}
-
-		private void FileListView_DrawItem(object sender, DrawListViewItemEventArgs e)
-		{
-			e.DrawDefault = true;
-		}
-
-		private void FileListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-		{
-			e.DrawDefault = true;
-		}
-
-		private void Bink(object sender, System.EventArgs e)
-		{
-			CheckBox test = sender as CheckBox;
-
-			for( int i = 0; i < FileListView.Items.Count; i++ )
-			{
-
-				FileListView.Items[ i ].Checked = test.Checked;
-
-			}
-		}
-		#endregion
-
 
 		#region Icon Explanation
 		/*

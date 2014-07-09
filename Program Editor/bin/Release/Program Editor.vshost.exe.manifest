@@ -27,14 +27,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Program Editor.exe" size="49152">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Program Editor.exe" size="53248">
       <assemblyIdentity name="Program Editor" version="2.6.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>OHsxMw2vISI5rXW148Mwf2jw0ek=</dsig:DigestValue>
+        <dsig:DigestValue>5hLeF8kosYthtIY+eTh6EKrMq3Q=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
