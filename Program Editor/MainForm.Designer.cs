@@ -81,9 +81,9 @@ namespace Program_Editor
 			// 
 			// HelpMenuItem
 			// 
+			this.HelpMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.HelpMenuItem.Image = ( (System.Drawing.Image)( resources.GetObject( "HelpMenuItem.Image" ) ) );
 			this.HelpMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.HelpMenuItem.Margin = new System.Windows.Forms.Padding( 395, 0, 0, 0 );
 			this.HelpMenuItem.Name = "HelpMenuItem";
 			this.HelpMenuItem.Size = new System.Drawing.Size( 44, 36 );
 			this.HelpMenuItem.ToolTipText = "Help";
@@ -91,6 +91,7 @@ namespace Program_Editor
 			// 
 			// AboutMenuItem
 			// 
+			this.AboutMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.AboutMenuItem.AutoToolTip = true;
 			this.AboutMenuItem.Image = ( (System.Drawing.Image)( resources.GetObject( "AboutMenuItem.Image" ) ) );
 			this.AboutMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
@@ -127,6 +128,7 @@ namespace Program_Editor
 			this.FileListView.HideSelection = false;
 			this.FileListView.Location = new System.Drawing.Point( 0, 43 );
 			this.FileListView.Name = "FileListView";
+			this.FileListView.Scrollable = false;
 			this.FileListView.Size = new System.Drawing.Size( 583, 234 );
 			this.FileListView.TabIndex = 4;
 			this.FileListView.UseCompatibleStateImageBehavior = false;
@@ -134,6 +136,7 @@ namespace Program_Editor
 			this.FileListView.DoubleClick += new System.EventHandler( this.FileListView_DoubleClick );
 			this.FileListView.DragDrop += new System.Windows.Forms.DragEventHandler( this.DnD_DragDrop );
 			this.FileListView.DragEnter += new System.Windows.Forms.DragEventHandler( this.DnD_DragEnter );
+			this.FileListView.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler( this.FileListView_ColumnWidthChanging );
 			// 
 			// FileNameColumn
 			// 

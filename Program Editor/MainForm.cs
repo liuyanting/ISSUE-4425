@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Program_Editor
 {
@@ -28,6 +29,14 @@ namespace Program_Editor
 		private int m_nTailLine = -1;		// M position
 		private int m_nTotalLine = -1;		// total lines
 
+		// invoke win32 scrollbar for vertical scroll bar in list view
+		[DllImport( "user32.dll" )]
+		static public extern bool ShowScrollBar(System.IntPtr hWnd, int wBar, bool bShow);
+		private const uint SB_HORZ = 0;
+		private const uint SB_VERT = 1;
+		private const uint ESB_DISABLE_BOTH = 0x3;
+		private const uint ESB_ENABLE_BOTH = 0x0;
+
 		public MainForm( )
 		{
 			InitializeComponent();
@@ -37,7 +46,12 @@ namespace Program_Editor
 			ConvertMenuItem.Enabled = false;
 			StatusLabel.Text = Status.STATUSSTRIP_WAITOPEN.ToString();
 
-			
+			// setup column width
+			this.FileNameColumn.Width = this.FileListView.Width * 76 / 100;
+			this.StatusColumn.Width = this.FileListView.Width * 20 / 100;
+
+			// showing vertical scroll bar only
+			ShowScrollBar( FileListView.Handle, (int)SB_VERT, true );
 		}
 
 		private void OpenMenuItem_Click(object sender, EventArgs e)
@@ -627,6 +641,13 @@ namespace Program_Editor
 			{
 				System.Diagnostics.Process.Start( m_FileList[ FileListView.SelectedIndices[ 0 ] ].GetPath() );
 			}
+		}
+
+		// lock column width
+		private void FileListView_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+		{
+			e.Cancel = true;
+			e.NewWidth = FileListView.Columns[ e.ColumnIndex ].Width;
 		}
 
 		private void HelpMenuItem_Click(object sender, EventArgs e)
