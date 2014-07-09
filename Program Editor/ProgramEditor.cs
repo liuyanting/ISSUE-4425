@@ -88,6 +88,8 @@ namespace Program_Editor
 #endif
 		}
 
+		#region Drag-n-Drop
+
 		// enable drag-n-drop action
 		private void DnD_DragDrop(object sender, DragEventArgs e)
 		{
@@ -100,6 +102,8 @@ namespace Program_Editor
 			if( e.Data.GetDataPresent( DataFormats.FileDrop ) )
 				e.Effect = DragDropEffects.Copy;
 		}
+
+		#endregion
 
 		private void PumpFileInList(string[] FilePath)
 		{
@@ -652,9 +656,9 @@ namespace Program_Editor
 			}
 		}
 
-		/*
+		
 		#region Icon Explanation
-
+		/*
 		private string strBuffer;	// store original string
 		private Image imgBuffer;	// store original image
 
@@ -732,9 +736,9 @@ namespace Program_Editor
 		{
 			StatusLabel.Text = strBuffer;
 		}
-
-		#endregion	
 		*/
+		#endregion	
+		
 	}
 
 	public sealed class Record
