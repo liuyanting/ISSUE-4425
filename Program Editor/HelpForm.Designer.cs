@@ -42,9 +42,9 @@ namespace Program_Editor
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point( 19, 25 );
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size( 176, 13 );
+			this.label1.Size = new System.Drawing.Size( 305, 13 );
 			this.label1.TabIndex = 0;
-			this.label1.Text = "1. Click                (Open) to load file.";
+			this.label1.Text = "1. Click                (Open) to load file OR Drag and drop the files.";
 			// 
 			// label2
 			// 
