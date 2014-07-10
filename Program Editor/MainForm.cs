@@ -668,7 +668,7 @@ namespace Program_Editor
 
 		private void AboutMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show( "Sub-Program Converter\n\nVersion: v" + CurrentVersion, "About", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			MessageBox.Show( "Sub-Program Converter\n\nVersion: v" + CurrentVersion + "\n\n\nDisclaimers: Icons are works from http://www.visualpharm.com", "About", MessageBoxButtons.OK, MessageBoxIcon.Information );
 		}
 
 		private void ExitMenuItem_Click(object sender, EventArgs e)
