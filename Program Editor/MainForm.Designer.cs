@@ -109,6 +109,7 @@ namespace Program_Editor
 			this.RevertMenuItem.Name = "RevertMenuItem";
 			this.RevertMenuItem.Size = new System.Drawing.Size( 44, 36 );
 			this.RevertMenuItem.ToolTipText = "Move text from tail to head.";
+			this.RevertMenuItem.Click += new System.EventHandler( this.RevertButton_Click );
 			// 
 			// StatusStrip
 			// 

@@ -29,6 +29,8 @@ namespace Program_Editor
 		private int m_nTailLine = -1;		// M position
 		private int m_nTotalLine = -1;		// total lines
 
+		private bool revert = false;
+
 		// invoke win32 scrollbar for vertical scroll bar in list view
 		[DllImport( "user32.dll" )]
 		static public extern bool ShowScrollBar(System.IntPtr hWnd, int wBar, bool bShow);
@@ -44,6 +46,7 @@ namespace Program_Editor
 			// reset ui
 			//ConvertMenuItem.Text = "Start Conversion";
 			ConvertMenuItem.Enabled = false;
+			RevertMenuItem.Enabled = false;
 			StatusLabel.Text = Status.STATUSSTRIP_WAITOPEN.ToString();
 
 			// setup column width
@@ -85,6 +88,7 @@ namespace Program_Editor
 			else
 			{
 				ConvertMenuItem.Enabled = false;
+				RevertMenuItem.Enabled = false;
 				//SelectAllMenuItem.Enabled = false;
 			}
 
@@ -141,6 +145,7 @@ namespace Program_Editor
 
 			// file selected, enable start button
 			ConvertMenuItem.Enabled = true;
+			RevertMenuItem.Enabled = true;
 			//SelectAllMenuItem.Enabled = true;
 		}
 
@@ -155,13 +160,24 @@ namespace Program_Editor
 			return false;
 		}
 
-		private void StartButton_Click(object sender, EventArgs e)
+		private void StartButton_Click(object sender, EventArgs e) {
+			revert = false;
+			ExecuteBackgroundEditor();
+		}
+
+		private void RevertButton_Click(object sender, EventArgs e) {
+			revert = true;
+			ExecuteBackgroundEditor();
+		}
+
+		private void ExecuteBackgroundEditor() 
 		{
 			// if background worker is running, then click this button cause cancelling
 			// otherwise, launch the thread
 			if( BackgroundEditor.IsBusy )
 			{
 				ConvertMenuItem.Enabled = false;
+				RevertMenuItem.Enabled = false;
 				//btnStart.Text = "Stopping...";
 
 				//SelectAllMenuItem.Enabled = false;
@@ -274,6 +290,7 @@ namespace Program_Editor
 
 			// reset ui
 			ConvertMenuItem.Enabled = true;
+			RevertMenuItem.Enabled = true;
 			//btnStart.Text = "Start";
 			OpenMenuItem.Enabled = true;
 
@@ -498,12 +515,7 @@ namespace Program_Editor
 			return false;
 		}
 
-		// backward compatability, just call the main conversion method...
-		private void MoveSegment(string path) {
-			MoveSegment( path, false );
-		}
-
-		private void MoveSegment(string Path, bool revert)
+		private void MoveSegment(string Path)
 		{
 			Debug.WriteLine( "==PRINT SELECTED LINES : " + m_nHeadLine.ToString() + " : " + m_nTailLine.ToString() );
 
@@ -536,12 +548,12 @@ namespace Program_Editor
 
 							nLineCounter++;
 						}
-					}
 
-					// reset reader and counter
-					nLineCounter = 0;
-					Reader.DiscardBufferedData();
-					Reader.BaseStream.Seek( 0, SeekOrigin.Begin );
+						// reset reader and counter
+						nLineCounter = 0;
+						Reader.DiscardBufferedData();
+						Reader.BaseStream.Seek( 0, SeekOrigin.Begin );
+					}
 
 					Debug.WriteLine( "==WRITING QUOTED REGION==" );
 					while( ( Line = Reader.ReadLine() ) != null )
@@ -559,6 +571,11 @@ namespace Program_Editor
 					// for reversion
 					if( revert )
 					{
+						// reset reader and counter
+						nLineCounter = 0;
+						Reader.DiscardBufferedData();
+						Reader.BaseStream.Seek( 0, SeekOrigin.Begin );
+
 						// wrtie none moving region
 						while( ( Line = Reader.ReadLine() ) != null )
 						{
@@ -658,6 +675,7 @@ namespace Program_Editor
 			if( FileListView.Items.Count < 1 )
 			{
 				ConvertMenuItem.Enabled = false;
+				RevertMenuItem.Enabled = false;
 			}
 		}
 

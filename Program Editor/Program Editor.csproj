@@ -109,23 +109,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\open.ico" />
-    <Content Include="Resources\about.png" />
     <None Include="Resources\convert.ico" />
-    <Content Include="Resources\document-edit-icon.png" />
-    <Content Include="Resources\folder-add-icon.png" />
     <None Include="Resources\help.ico" />
     <None Include="Resources\help.png" />
-    <Content Include="Resources\Info-icon.png" />
     <None Include="Resources\info.ico" />
     <None Include="Resources\info.png" />
-    <Content Include="Resources\open.png" />
     <None Include="Resources\open1.png" />
     <None Include="Resources\open2.png" />
-    <Content Include="Resources\remove.png" />
     <None Include="Resources\revert.png" />
-    <Content Include="Resources\select_all.png" />
     <None Include="Resources\start.png" />
-    <Content Include="Resources\Untitled1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
