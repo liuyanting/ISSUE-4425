@@ -109,8 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\open.ico" />
-    <None Include="Resources\convert.ico" />
-    <None Include="Resources\help.ico" />
     <None Include="Resources\help.png" />
     <None Include="Resources\info.ico" />
     <None Include="Resources\info.png" />
