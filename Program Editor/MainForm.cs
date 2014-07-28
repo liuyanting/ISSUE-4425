@@ -498,7 +498,12 @@ namespace Program_Editor
 			return false;
 		}
 
-		private void MoveSegment(string Path)
+		// backward compatability, just call the main conversion method...
+		private void MoveSegment(string path) {
+			MoveSegment( path, false );
+		}
+
+		private void MoveSegment(string Path, bool revert)
 		{
 			Debug.WriteLine( "==PRINT SELECTED LINES : " + m_nHeadLine.ToString() + " : " + m_nTailLine.ToString() );
 
@@ -516,17 +521,21 @@ namespace Program_Editor
 			{
 				using( StreamWriter Writer = new StreamWriter( TempFile ) )
 				{
-					// wrtie none moving region
-					while( ( Line = Reader.ReadLine() ) != null )
+					// for conversion
+					if( !revert )
 					{
-						if( ( nLineCounter < m_nHeadLine ) || ( nLineCounter > m_nTailLine ) )
+						// wrtie none moving region
+						while( ( Line = Reader.ReadLine() ) != null )
 						{
-							// write content to file
-							Writer.WriteLine( Line );
-							Writer.Flush();
-						}
+							if( ( nLineCounter < m_nHeadLine ) || ( nLineCounter > m_nTailLine ) )
+							{
+								// write content to file
+								Writer.WriteLine( Line );
+								Writer.Flush();
+							}
 
-						nLineCounter++;
+							nLineCounter++;
+						}
 					}
 
 					// reset reader and counter
@@ -545,6 +554,23 @@ namespace Program_Editor
 						}
 
 						nLineCounter++;
+					}
+
+					// for reversion
+					if( revert )
+					{
+						// wrtie none moving region
+						while( ( Line = Reader.ReadLine() ) != null )
+						{
+							if( ( nLineCounter < m_nHeadLine ) || ( nLineCounter > m_nTailLine ) )
+							{
+								// write content to file
+								Writer.WriteLine( Line );
+								Writer.Flush();
+							}
+
+							nLineCounter++;
+						}
 					}
 				}
 			}

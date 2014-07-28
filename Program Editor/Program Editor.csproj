@@ -122,6 +122,7 @@
     <None Include="Resources\open1.png" />
     <None Include="Resources\open2.png" />
     <Content Include="Resources\remove.png" />
+    <None Include="Resources\revert.png" />
     <Content Include="Resources\select_all.png" />
     <None Include="Resources\start.png" />
     <Content Include="Resources\Untitled1.png" />

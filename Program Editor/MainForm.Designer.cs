@@ -33,8 +33,9 @@ namespace Program_Editor
 			this.MenuStrip = new System.Windows.Forms.MenuStrip();
 			this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ConvertMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.RevertMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.StatusStrip = new System.Windows.Forms.StatusStrip();
 			this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.FileListView = new System.Windows.Forms.ListView();
@@ -50,9 +51,9 @@ namespace Program_Editor
 			this.MenuStrip.Items.AddRange( new System.Windows.Forms.ToolStripItem[] {
             this.OpenMenuItem,
             this.ConvertMenuItem,
-			this.AboutMenuItem,
-            this.HelpMenuItem
-            } );
+            this.AboutMenuItem,
+            this.HelpMenuItem,
+            this.RevertMenuItem} );
 			this.MenuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
 			this.MenuStrip.Location = new System.Drawing.Point( 0, 0 );
 			this.MenuStrip.Name = "MenuStrip";
@@ -80,16 +81,6 @@ namespace Program_Editor
 			this.ConvertMenuItem.ToolTipText = "Start Conversion";
 			this.ConvertMenuItem.Click += new System.EventHandler( this.StartButton_Click );
 			// 
-			// HelpMenuItem
-			// 
-			this.HelpMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.HelpMenuItem.Image = ( (System.Drawing.Image)( resources.GetObject( "HelpMenuItem.Image" ) ) );
-			this.HelpMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.HelpMenuItem.Name = "HelpMenuItem";
-			this.HelpMenuItem.Size = new System.Drawing.Size( 44, 36 );
-			this.HelpMenuItem.ToolTipText = "Help";
-			this.HelpMenuItem.Click += new System.EventHandler( this.HelpMenuItem_Click );
-			// 
 			// AboutMenuItem
 			// 
 			this.AboutMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -100,6 +91,24 @@ namespace Program_Editor
 			this.AboutMenuItem.Size = new System.Drawing.Size( 44, 36 );
 			this.AboutMenuItem.ToolTipText = "About";
 			this.AboutMenuItem.Click += new System.EventHandler( this.AboutMenuItem_Click );
+			// 
+			// HelpMenuItem
+			// 
+			this.HelpMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.HelpMenuItem.Image = ( (System.Drawing.Image)( resources.GetObject( "HelpMenuItem.Image" ) ) );
+			this.HelpMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.HelpMenuItem.Name = "HelpMenuItem";
+			this.HelpMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.HelpMenuItem.ToolTipText = "Help";
+			this.HelpMenuItem.Click += new System.EventHandler( this.HelpMenuItem_Click );
+			// 
+			// RevertMenuItem
+			// 
+			this.RevertMenuItem.Image = global::Program_Editor.Properties.Resources.revert;
+			this.RevertMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+			this.RevertMenuItem.Name = "RevertMenuItem";
+			this.RevertMenuItem.Size = new System.Drawing.Size( 44, 36 );
+			this.RevertMenuItem.ToolTipText = "Move text from tail to head.";
 			// 
 			// StatusStrip
 			// 
@@ -192,5 +201,6 @@ namespace Program_Editor
 		private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ConvertMenuItem;
 		private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
+		private ToolStripMenuItem RevertMenuItem;
 	}
 }

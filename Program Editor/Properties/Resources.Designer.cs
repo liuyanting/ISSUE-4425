@@ -81,6 +81,13 @@ namespace Program_Editor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap revert {
+            get {
+                object obj = ResourceManager.GetObject("revert", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap start {
             get {
                 object obj = ResourceManager.GetObject("start", resourceCulture);
