@@ -104,11 +104,12 @@ namespace Program_Editor
 			// 
 			// RevertMenuItem
 			// 
+			this.RevertMenuItem.AutoToolTip = true;
 			this.RevertMenuItem.Image = global::Program_Editor.Properties.Resources.revert;
 			this.RevertMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.RevertMenuItem.Name = "RevertMenuItem";
 			this.RevertMenuItem.Size = new System.Drawing.Size( 44, 36 );
-			this.RevertMenuItem.ToolTipText = "Move text from tail to head.";
+			this.RevertMenuItem.ToolTipText = "Start Reversion";
 			this.RevertMenuItem.Click += new System.EventHandler( this.RevertButton_Click );
 			// 
 			// StatusStrip

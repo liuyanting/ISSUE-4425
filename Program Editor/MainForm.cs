@@ -50,8 +50,8 @@ namespace Program_Editor
 			StatusLabel.Text = Status.STATUSSTRIP_WAITOPEN.ToString();
 
 			// setup column width
-			this.FileNameColumn.Width = this.FileListView.Width * 76 / 100;
-			this.StatusColumn.Width = this.FileListView.Width * 20 / 100;
+			this.FileNameColumn.Width = this.FileListView.Width * 72 / 100;
+			this.StatusColumn.Width = this.FileListView.Width * 24 / 100;
 
 			// show vertical scroll bar only
 			ShowScrollBar( FileListView.Handle, (int)SB_VERT, true );
@@ -223,7 +223,7 @@ namespace Program_Editor
 				{
 					// moving segments in the file
 					MoveSegment( Path );
-					m_FileList[ m_nProcessingID ].SetStatusFlag( Status.FILE_PROCESSED );
+					m_FileList[ m_nProcessingID ].SetStatusFlag( (revert)?Status.FILE_PROCESSED_REV : Status.FILE_PROCESSED_CON );
 					// BackgroundEditor.ReportProgress( (int)RefreshStatus.UPDATEUI, Status.FILE_PROCESSED );
 				}
 				else
@@ -878,7 +878,8 @@ namespace Program_Editor
 		public static readonly Status MARKER_REVERSE = new Status( 5, "Markers in reverse order." );
 
 		public static readonly Status FILE_PROCESSING = new Status( 10, "..." );
-		public static readonly Status FILE_PROCESSED = new Status( 11, "Modified" );
+		public static readonly Status FILE_PROCESSED_CON = new Status( 11, "Conversion completed!" );
+		public static readonly Status FILE_PROCESSED_REV = new Status( 14, "Reversion completed!" );
 		public static readonly Status FILE_SKIP = new Status( 12, "No need to modify" );
 		public static readonly Status FILE_LOADED = new Status( 13, "" );
 
